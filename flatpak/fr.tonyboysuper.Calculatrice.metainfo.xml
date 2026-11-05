@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>fr.tonyboysuper.Calculatrice</id>
+  <name>Calculatrice</name>
+  <summary>Calculatrice simple et scientifique en français</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>
+      Calculatrice de bureau inspirée de Windows Calculator, écrite en Rust (Tauri 2) et Svelte 5 pour Pop!_OS (Wayland), avec arithmétique décimale exacte et thèmes Catppuccin.
+    </p>
+  </description>
+  <launchable type="desktop-id">fr.tonyboysuper.Calculatrice.desktop</launchable>
+  <content_rating type="oars-1.1" />
+  <releases>
+    <release version="0.1.0" date="2026-11-05" />
+  </releases>
+</component>
