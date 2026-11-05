@@ -3,7 +3,7 @@
   "productName": "Calculatrice",
   "mainBinaryName": "calculatrice",
   "version": "0.1.0",
-  "identifier": "fr.tonyboysuper.calculatrice",
+  "identifier": "io.github.lib-locale.calculatrice",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",

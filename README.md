@@ -14,6 +14,10 @@
 
 [**Download Flatpak (`v0.1.0`)**](https://github.com/Lib-LOCALE/calculatrice/releases/latest) · [**Report a Bug**](https://github.com/Lib-LOCALE/calculatrice/issues) · [**Request a Feature**](https://github.com/Lib-LOCALE/calculatrice/issues)
 
+<br>
+
+<img src="docs/screenshot.png" width="820" alt="Calculatrice Scientific Mode & History in Catppuccin Mocha">
+
 </div>
 
 ---
@@ -62,7 +66,7 @@ curl -L -o calculatrice.flatpak https://github.com/Lib-LOCALE/calculatrice/relea
 flatpak --user install -y --bundle calculatrice.flatpak
 
 # Launch Calculatrice
-flatpak run fr.tonyboysuper.Calculatrice
+flatpak run io.github.Lib_LOCALE.Calculatrice
 ```
 
 > **Note:** Calculatrice uses the standard `org.gnome.Platform//50` runtime. If not already installed on your machine, install it via `flatpak install flathub org.gnome.Platform//50`.
@@ -129,7 +133,7 @@ calculatrice/
 │       ├── keys.ts          # Keypad definitions & Wayland-resilient keyboard/numpad mapper
 │       └── LogoAnime.svelte # Theme-reactive animated vector icon component
 ├── assets/                  # Native VectorCraft (.vectorcraft) & EffectCraft (.ecproj) icon sources
-├── flatpak/                 # Desktop entry & AppStream metainfo (fr.tonyboysuper.Calculatrice)
+├── flatpak/                 # Desktop entry, AppStream metainfo & Flatpak manifest (io.github.Lib_LOCALE.Calculatrice)
 └── scripts/build-flatpak.sh # One-step release build & Flatpak bundle generator
 ```
 
