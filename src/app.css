@@ -1,4 +1,4 @@
-/* Palettes officielles Catppuccin (https://catppuccin.com/palette) */
+/* Palettes officielles : Catppuccin, Tokyo Night, Dracula, Nord & Gruvbox */
 
 :root,
 :root[data-theme='mocha'] {
@@ -131,7 +131,99 @@
   --shadow-elevated: 0 8px 28px rgba(76, 79, 105, 0.16), 0 2px 6px rgba(76, 79, 105, 0.08);
 }
 
-/* Couleur d'accent Catppuccin sélectionnée */
+/* Tokyo Night (https://github.com/enkia/tokyo-night-vscode-theme) */
+:root[data-theme='tokyo-night'] {
+  color-scheme: dark;
+  --ctp-crust: #13141c;
+  --ctp-mantle: #16161e;
+  --ctp-base: #1a1b26;
+  --ctp-surface0: #24283b;
+  --ctp-surface1: #2f3549;
+  --ctp-surface2: #414868;
+  --ctp-overlay0: #565f89;
+  --ctp-subtext0: #9aa5ce;
+  --ctp-text: #c0caf5;
+  --ctp-mauve: #bb9af7;
+  --ctp-blue: #7aa2f7;
+  --ctp-sapphire: #7dcfff;
+  --ctp-lavender: #b4f9f8;
+  --ctp-peach: #ff9e64;
+  --ctp-green: #9ece6a;
+  --ctp-pink: #f7768e;
+  --ctp-red: #f7768e;
+  --on-accent: #16161e;
+}
+
+/* Dracula (https://draculatheme.com) */
+:root[data-theme='dracula'] {
+  color-scheme: dark;
+  --ctp-crust: #191a21;
+  --ctp-mantle: #21222c;
+  --ctp-base: #282a36;
+  --ctp-surface0: #343746;
+  --ctp-surface1: #44475a;
+  --ctp-surface2: #565970;
+  --ctp-overlay0: #6272a4;
+  --ctp-subtext0: #bfc5dc;
+  --ctp-text: #f8f8f2;
+  --ctp-mauve: #bd93f9;
+  --ctp-blue: #8be9fd;
+  --ctp-sapphire: #8be9fd;
+  --ctp-lavender: #caa9fa;
+  --ctp-peach: #ffb86c;
+  --ctp-green: #50fa7b;
+  --ctp-pink: #ff79c6;
+  --ctp-red: #ff5555;
+  --on-accent: #21222c;
+}
+
+/* Nord (https://www.nordtheme.com) */
+:root[data-theme='nord'] {
+  color-scheme: dark;
+  --ctp-crust: #1f232b;
+  --ctp-mantle: #242933;
+  --ctp-base: #2e3440;
+  --ctp-surface0: #3b4252;
+  --ctp-surface1: #434c5e;
+  --ctp-surface2: #4c566a;
+  --ctp-overlay0: #616e88;
+  --ctp-subtext0: #d8dee9;
+  --ctp-text: #eceff4;
+  --ctp-mauve: #b48ead;
+  --ctp-blue: #81a1c1;
+  --ctp-sapphire: #88c0d0;
+  --ctp-lavender: #8fbcbb;
+  --ctp-peach: #d08770;
+  --ctp-green: #a3be8c;
+  --ctp-pink: #b48ead;
+  --ctp-red: #bf616a;
+  --on-accent: #242933;
+}
+
+/* Gruvbox Dark (https://github.com/morhetz/gruvbox) */
+:root[data-theme='gruvbox'] {
+  color-scheme: dark;
+  --ctp-crust: #141617;
+  --ctp-mantle: #1d2021;
+  --ctp-base: #282828;
+  --ctp-surface0: #3c3836;
+  --ctp-surface1: #504945;
+  --ctp-surface2: #665c54;
+  --ctp-overlay0: #928374;
+  --ctp-subtext0: #d5c4a1;
+  --ctp-text: #ebdbb2;
+  --ctp-mauve: #d3869b;
+  --ctp-blue: #83a598;
+  --ctp-sapphire: #8ec07c;
+  --ctp-lavender: #fabd2f;
+  --ctp-peach: #fe8019;
+  --ctp-green: #b8bb26;
+  --ctp-pink: #d3869b;
+  --ctp-red: #fb4934;
+  --on-accent: #1d2021;
+}
+
+/* Couleur d'accent sélectionnée */
 :root,
 :root[data-accent='mauve'] {
   --accent: var(--ctp-mauve);

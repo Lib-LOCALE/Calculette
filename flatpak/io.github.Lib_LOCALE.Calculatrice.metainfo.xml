@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
   <id>io.github.Lib_LOCALE.Calculatrice</id>
-  <name>Calculatrice</name>
+  <name>Calculette</name>
   <summary>Modern Standard &amp; Scientific Calculator for Linux</summary>
-  <summary xml:lang="fr">Calculatrice simple et scientifique moderne pour Linux</summary>
+  <summary xml:lang="fr">Calculette simple et scientifique moderne pour Linux</summary>
   <summary xml:lang="de">Moderner Standard- und wissenschaftlicher Taschenrechner</summary>
   <summary xml:lang="it">Calcolatrice standard e scientifica moderna</summary>
   <summary xml:lang="es">Calculadora estándar y científica moderna</summary>
@@ -16,15 +16,15 @@
   <developer_name>Lib-LOCALE</developer_name>
   <description>
     <p>
-      A fast, native desktop calculator inspired by Windows Calculator, built with Rust (Tauri 2) and Svelte 5 for Linux &amp; Wayland. Features 128-bit exact decimal arithmetic, official Catppuccin themes, full numpad support, and 6 languages.
+      Calculette is a fast, native desktop calculator inspired by Windows Calculator, built with Rust (Tauri 2) and Svelte 5 for Linux &amp; Wayland. Features 128-bit exact decimal arithmetic, iconic Linux themes (Catppuccin, Tokyo Night, Dracula, Nord, Gruvbox), full numpad support, and 6 languages.
     </p>
     <p xml:lang="fr">
-      Calculatrice de bureau inspirée de Windows Calculator, écrite en Rust (Tauri 2) et Svelte 5 pour Linux et Wayland, avec arithmétique décimale exacte 128 bits, thèmes officiels Catppuccin et 6 langues.
+      Calculette de bureau inspirée de Windows Calculator, écrite en Rust (Tauri 2) et Svelte 5 pour Linux et Wayland, avec arithmétique décimale exacte 128 bits, thèmes Catppuccin, Tokyo Night, Dracula, Nord et Gruvbox, et 6 langues.
     </p>
     <ul>
       <li>128-bit exact decimal arithmetic in Rust (0.1 + 0.2 = 0.3, 1 ÷ 3 × 3 = 1)</li>
       <li>Standard mode (immediate execution) and Scientific mode (operator precedence, nested parentheses, DEG/RAD/GRAD, 2nd &amp; hyp)</li>
-      <li>Official Catppuccin palettes (Latte, Frappé, Macchiato, Mocha) with 7 accent colors</li>
+      <li>8 built-in themes: Catppuccin (Mocha, Macchiato, Frappé, Latte), Tokyo Night, Dracula, Nord, and Gruvbox + 7 accent colors</li>
       <li>6 built-in languages (English, French, German, Italian, Spanish, Portuguese) with locale-aware formatting</li>
       <li>Adaptive layout with slide-up drawer or side-by-side History &amp; Memory panel</li>
     </ul>
@@ -41,11 +41,16 @@
     <category>Calculator</category>
   </categories>
   <keywords>
+    <keyword>calculette</keyword>
     <keyword>calculator</keyword>
     <keyword>calculatrice</keyword>
     <keyword>scientific</keyword>
     <keyword>math</keyword>
     <keyword>catppuccin</keyword>
+    <keyword>tokyo-night</keyword>
+    <keyword>dracula</keyword>
+    <keyword>nord</keyword>
+    <keyword>gruvbox</keyword>
     <keyword>wayland</keyword>
   </keywords>
   <branding>
@@ -54,7 +59,7 @@
   </branding>
   <screenshots>
     <screenshot type="default">
-      <caption>Scientific Mode with History sidebar in Catppuccin Mocha theme</caption>
+      <caption>Scientific Mode with History sidebar</caption>
       <image type="source" width="1280" height="800">https://raw.githubusercontent.com/Lib-LOCALE/calculatrice/main/docs/screenshot.png</image>
     </screenshot>
   </screenshots>
@@ -62,7 +67,7 @@
   <releases>
     <release version="0.1.0" date="2026-11-05">
       <description>
-        <p>Initial release featuring Standard and Scientific modes, 128-bit exact Rust decimal engine, Catppuccin themes, and 6 languages.</p>
+        <p>Initial release featuring Standard and Scientific modes, 128-bit exact Rust decimal engine, 8 Linux themes (Catppuccin, Tokyo Night, Dracula, Nord, Gruvbox), and 6 languages.</p>
       </description>
     </release>
   </releases>

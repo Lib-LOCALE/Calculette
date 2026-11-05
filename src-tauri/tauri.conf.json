@@ -1,9 +1,9 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Calculatrice",
+  "productName": "Calculette",
   "mainBinaryName": "calculatrice",
   "version": "0.1.0",
-  "identifier": "io.github.lib-locale.calculatrice",
+  "identifier": "io.github.lib-locale.calculette",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -13,7 +13,7 @@
   "app": {
     "windows": [
       {
-        "title": "Calculatrice",
+        "title": "Calculette",
         "width": 380,
         "height": 640,
         "minWidth": 320,

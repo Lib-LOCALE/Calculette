@@ -2,14 +2,14 @@
 
 <img src="src-tauri/icons/icon.svg" width="128" height="128" alt="Calculatrice Icon">
 
-# Calculatrice
+# Calculette
 
-**A fast, modern desktop calculator for Linux & Wayland — inspired by Windows Calculator, powered by 128-bit exact Rust decimal math, and styled with official Catppuccin themes.**
+**A fast, modern desktop calculator for Linux & Wayland — inspired by Windows Calculator, powered by 128-bit exact Rust decimal math, and styled with Catppuccin, Tokyo Night, Dracula, Nord & Gruvbox themes.**
 
 [![Release](https://img.shields.io/github/v/release/Lib-LOCALE/calculatrice?label=release&color=cba6f7)](https://github.com/Lib-LOCALE/calculatrice/releases/latest)
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Wayland%20%7C%20Flatpak-89b4fa)](https://github.com/Lib-LOCALE/calculatrice/releases/latest)
 [![Stack](https://img.shields.io/badge/stack-Rust%20%2B%20Tauri%202%20%2B%20Svelte%205-fab387)](https://github.com/Lib-LOCALE/calculatrice)
-[![Catppuccin](https://img.shields.io/badge/themes-Catppuccin-f5c2e7)](https://catppuccin.com)
+[![Themes](https://img.shields.io/badge/themes-Catppuccin%20%7C%20Tokyo%20Night%20%7C%20Dracula%20%7C%20Nord%20%7C%20Gruvbox-f5c2e7)](https://github.com/Lib-LOCALE/calculatrice)
 [![License: MIT](https://img.shields.io/badge/license-MIT-a6e3a1.svg)](LICENSE)
 
 [**Download Flatpak (`v0.1.0`)**](https://github.com/Lib-LOCALE/calculatrice/releases/latest) · [**Report a Bug**](https://github.com/Lib-LOCALE/calculatrice/issues) · [**Request a Feature**](https://github.com/Lib-LOCALE/calculatrice/issues)
@@ -22,18 +22,18 @@
 
 ---
 
-## Why Calculatrice?
+## Why Calculette?
 
 Linux has plenty of calculators, yet switching from **Windows Calculator** to **GNOME Calculator**, **KCalc**, or **Galculator** often comes with trade-offs: missing immediate-execution Standard mode, inconsistent numpad handling under Wayland, rigid toolkit theming, or floating-point rounding artifacts.
 
-**Calculatrice** brings the intuitive muscle memory of Windows Calculator to Linux and Wayland (`Pop!_OS`, `COSMIC`, `GNOME`, `KDE Plasma`, `Hyprland`, `Sway`) in a lightweight native binary built with **Rust**, **Tauri 2**, and **Svelte 5**:
+**Calculette** brings the intuitive muscle memory of Windows Calculator to Linux and Wayland (`Pop!_OS`, `COSMIC`, `GNOME`, `KDE Plasma`, `Hyprland`, `Sway`) in a lightweight native binary built with **Rust**, **Tauri 2**, and **Svelte 5**:
 
 - **True 128-bit Decimal Arithmetic (`rust_decimal`)** — Up to 28 significant digits with zero binary floating-point surprises: `0.1 + 0.2 = 0.3` and `1 ÷ 3 × 3 = 1`. Right-angle trigonometry is exact (`sin(180°) = 0`, `cos(90°) = 0`, `tan(45°) = 1`).
 - **Dual Calculation Engines (Standard vs. Scientific)**
   - **Standard Mode (`Alt+1`)**: Classic immediate execution (`2 + 3 × 4 = 20`), contextual percentages (`200 + 10% = 220`), reciprocals (`1/x`), squares (`x²`), square roots (`√x`), and `=` operation repeat.
   - **Scientific Mode (`Alt+2`)**: Full operator precedence (`2 + 3 × 4 = 14`), nested parentheses with a live depth badge, `DEG` / `RAD` / `GRAD` angle units, `2nd` and hyperbolic (`hyp`) function layers, powers (`xʸ`, `10ˣ`, `2ˣ`, `eˣ`), roots (`√x`, `∛x`, `ʸ√x`), logarithms (`log`, `ln`), factorial (`n!`), modulo (`mod`), absolute value (`|x|`), and constants (`π`, `e`).
 - **First-Class Wayland & Numpad Support** — Hardware scancode detection (`Numpad0`–`Numpad9`, `NumpadDecimal`, `NumpadComma`, `NumpadAdd`, `NumpadSubtract`, `NumpadMultiply`, `NumpadDivide`, `NumpadEnter`, plus XKB `KP_*` keys) ensures your numeric keypad always works on Wayland regardless of `NumLock` state. Includes automatic DMA-BUF fallback for NVIDIA Wayland sessions.
-- **Official Catppuccin Palette Built-In** — Choose between all 4 official flavors (**Latte** ☀️, **Frappé**  frappe, **Macchiato** 🌺, **Mocha** 🌙) and **7 accent colors** (**Mauve**, **Blue**, **Sapphire**, **Lavender**, **Peach**, **Green**, **Pink**) directly from the `☰` settings drawer.
+- **8 Iconic Linux Themes + 7 Accent Colors** — Switch between **Catppuccin** (**Mocha**, **Macchiato**, **Frappé**, **Latte**), **Tokyo Night**, **Dracula**, **Nord**, and **Gruvbox**, each paired with **7 selectable accent colors** directly from the `☰` settings drawer.
 - **Adaptive Responsive Layout** — Works as a compact desktop calculator with a slide-up **History & Memory** drawer, and automatically expands into a two-column split view with a permanent sidebar as soon as the window is widened (`≥ 640 px`).
 - **6 Languages with Locale-Aware Formatting** — Instant switching between **English** (`🇬🇧`), **Français** (`🇫🇷`), **Deutsch** (`🇩🇪`), **Italiano** (`🇮🇹`), **Español** (`🇪🇸`), and **Português** (`🇵🇹`), automatically adapting thousands/decimal separators, error diagnostics, and accessibility labels.
 
@@ -41,7 +41,7 @@ Linux has plenty of calculators, yet switching from **Windows Calculator** to **
 
 ## Comparison with Other Desktop Calculators
 
-| Feature | **Calculatrice** | Windows Calculator | GNOME Calculator | KCalc |
+| Feature | **Calculette** | Windows Calculator | GNOME Calculator | KCalc |
 | :--- | :---: | :---: | :---: | :---: |
 | **Native Linux / Wayland** | ✅ | ❌ (Windows only) | ✅ | ✅ |
 | **128-bit Exact Decimal Math** | ✅ (`rust_decimal`) | ✅ | ✅ (MPFR) | ✅ (GMP/MPFR) |
@@ -49,7 +49,7 @@ Linux has plenty of calculators, yet switching from **Windows Calculator** to **
 | **Operator-Precedence Scientific Mode** | ✅ (`2 + 3 × 4 = 14`) | ✅ | ✅ | ✅ |
 | **Adaptive Split-View History & Memory** | ✅ | ✅ | ❌ | ❌ |
 | **Wayland Numpad (`NumLock` independent)** | ✅ | N/A | ⚠️ Compositor-dependent | ⚠️ Compositor-dependent |
-| **Built-in Catppuccin Flavors & Accents** | ✅ (4 flavors × 7 accents) | ❌ | ❌ | ❌ |
+| **Built-in Linux Themes (Catppuccin, Tokyo Night, Dracula, Nord, Gruvbox)** | ✅ (8 themes × 7 accents) | ❌ | ❌ | ❌ |
 | **In-App Instant Language Switcher** | ✅ (6 languages) | ❌ (OS locale) | ❌ (OS locale) | ✅ |
 
 ---

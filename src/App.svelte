@@ -14,24 +14,36 @@
   import LogoAnime from './lib/LogoAnime.svelte';
   import type { Angle, Key, Mode } from './lib/types';
 
-  type SaveurCtp = 'latte' | 'frappe' | 'macchiato' | 'mocha';
+  type SaveurTheme =
+    | 'latte'
+    | 'frappe'
+    | 'macchiato'
+    | 'mocha'
+    | 'tokyo-night'
+    | 'dracula'
+    | 'nord'
+    | 'gruvbox';
   type AccentCtp = 'mauve' | 'blue' | 'sapphire' | 'lavender' | 'peach' | 'green' | 'pink';
 
-  const SAVEURS: { id: SaveurCtp; nom: string; apercuBg: string; apercuTexte: string }[] = [
-    { id: 'latte', nom: 'Latte', apercuBg: '#eff1f5', apercuTexte: '#4c4f69' },
-    { id: 'frappe', nom: 'Frappé', apercuBg: '#303446', apercuTexte: '#c6d0f5' },
-    { id: 'macchiato', nom: 'Macchiato', apercuBg: '#24273a', apercuTexte: '#cad3f5' },
-    { id: 'mocha', nom: 'Mocha', apercuBg: '#1e1e2e', apercuTexte: '#cdd6f4' },
+  const SAVEURS: { id: SaveurTheme; nom: string; apercuBg: string; apercuTexte: string }[] = [
+    { id: 'mocha', nom: 'Mocha', apercuBg: '#1e1e2e', apercuTexte: '#cba6f7' },
+    { id: 'tokyo-night', nom: 'Tokyo Night', apercuBg: '#1a1b26', apercuTexte: '#7aa2f7' },
+    { id: 'dracula', nom: 'Dracula', apercuBg: '#282a36', apercuTexte: '#bd93f9' },
+    { id: 'nord', nom: 'Nord', apercuBg: '#2e3440', apercuTexte: '#88c0d0' },
+    { id: 'gruvbox', nom: 'Gruvbox', apercuBg: '#282828', apercuTexte: '#fe8019' },
+    { id: 'macchiato', nom: 'Macchiato', apercuBg: '#24273a', apercuTexte: '#c6a0f6' },
+    { id: 'frappe', nom: 'Frappé', apercuBg: '#303446', apercuTexte: '#ca9ee6' },
+    { id: 'latte', nom: 'Latte', apercuBg: '#eff1f5', apercuTexte: '#8839ef' },
   ];
 
-  const ACCENTS: { id: AccentCtp; hex: string }[] = [
-    { id: 'mauve', hex: '#cba6f7' },
-    { id: 'blue', hex: '#89b4fa' },
-    { id: 'sapphire', hex: '#74c7ec' },
-    { id: 'lavender', hex: '#b4befe' },
-    { id: 'peach', hex: '#fab387' },
-    { id: 'green', hex: '#a6e3a1' },
-    { id: 'pink', hex: '#f5c2e7' },
+  const ACCENTS: { id: AccentCtp; cssVar: string }[] = [
+    { id: 'mauve', cssVar: 'var(--ctp-mauve)' },
+    { id: 'blue', cssVar: 'var(--ctp-blue)' },
+    { id: 'sapphire', cssVar: 'var(--ctp-sapphire)' },
+    { id: 'lavender', cssVar: 'var(--ctp-lavender)' },
+    { id: 'peach', cssVar: 'var(--ctp-peach)' },
+    { id: 'green', cssVar: 'var(--ctp-green)' },
+    { id: 'pink', cssVar: 'var(--ctp-pink)' },
   ];
 
   let menuOuvert = $state(false);
@@ -41,7 +53,7 @@
   let hyp = $state(false);
   let toucheActive = $state<string | null>(null);
   let copieOk = $state(false);
-  let saveur = $state<SaveurCtp>('mocha');
+  let saveur = $state<SaveurTheme>('mocha');
   let accent = $state<AccentCtp>('mauve');
   let langue = $state<Langue>('fr');
   let timerCopie: ReturnType<typeof setTimeout> | null = null;
@@ -86,7 +98,7 @@
         : tr.ui.gradVersDeg,
   );
 
-  function appliquerTheme(s: SaveurCtp, a: AccentCtp) {
+  function appliquerTheme(s: SaveurTheme, a: AccentCtp) {
     saveur = s;
     accent = a;
     document.documentElement.dataset.theme = s;
@@ -112,7 +124,7 @@
 
   onMount(() => {
     try {
-      const s = localStorage.getItem('calculatrice.catppuccin.saveur') as SaveurCtp | null;
+      const s = localStorage.getItem('calculatrice.catppuccin.saveur') as SaveurTheme | null;
       const a = localStorage.getItem('calculatrice.catppuccin.accent') as AccentCtp | null;
       const saveurInit = SAVEURS.some((x) => x.id === s) ? s! : 'mocha';
       const accentInit = ACCENTS.some((x) => x.id === a) ? a! : 'mauve';
@@ -539,7 +551,7 @@
               type="button"
               class="pastille-accent"
               class:actif={accent === a.id}
-              style:background={a.hex}
+              style:background={a.cssVar}
               title={tr.accents[a.id]}
               aria-label={tr.accents[a.id]}
               aria-pressed={accent === a.id}
