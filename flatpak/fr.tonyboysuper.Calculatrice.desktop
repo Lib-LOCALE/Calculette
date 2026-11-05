@@ -1,0 +1,23 @@
+[Desktop Entry]
+Name=Calculatrice
+Name[fr]=Calculatrice
+Name[en]=Calculator
+Name[de]=Rechner
+Name[it]=Calcolatrice
+Name[es]=Calculadora
+Name[pt]=Calculadora
+Comment=Calculatrice simple et scientifique avec thèmes Catppuccin
+Comment[fr]=Calculatrice simple et scientifique avec thèmes Catppuccin
+Comment[en]=Standard and scientific calculator with Catppuccin themes
+Comment[de]=Standard- und wissenschaftlicher Rechner mit Catppuccin-Designs
+Comment[it]=Calcolatrice standard e scientifica con temi Catppuccin
+Comment[es]=Calculadora estándar y científica con temas Catppuccin
+Comment[pt]=Calculadora padrão e científica com temas Catppuccin
+Exec=calculatrice
+Icon=fr.tonyboysuper.Calculatrice
+Terminal=false
+Type=Application
+Categories=Utility;Calculator;
+Keywords=calculatrice;calculator;rechner;calcolatrice;calculadora;scientifique;math;catppuccin;
+StartupNotify=true
+StartupWMClass=calculatrice

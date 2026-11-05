@@ -1,0 +1,12 @@
+[package]
+name = "moteur"
+version = "0.1.0"
+edition = "2024"
+description = "Moteur de calcul de la Calculatrice (pur Rust, sans dépendance Tauri)"
+
+[dependencies]
+rust_decimal = { version = "1.43.0", features = ["maths", "serde-with-str"] }
+serde = { version = "1.0.229", features = ["derive"] }
+
+[dev-dependencies]
+serde_json = "1.0.154"

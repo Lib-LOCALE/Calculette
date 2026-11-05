@@ -1,0 +1,2 @@
+[env]
+PKG_CONFIG_PATH = { value = ".sysroot/lib/pkgconfig", relative = true }
