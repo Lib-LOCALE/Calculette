@@ -32,6 +32,7 @@ flatpak build "$BUILD_DIR" mkdir -p \
   /app/bin \
   /app/share/applications \
   /app/share/metainfo \
+  /app/share/app-info/xmls \
   /app/share/icons/hicolor/scalable/apps \
   /app/share/icons/hicolor/32x32/apps \
   /app/share/icons/hicolor/128x128/apps \
@@ -43,6 +44,12 @@ chmod 755 "$BUILD_DIR/files/bin/calculatrice"
 
 cp "$ROOT_DIR/flatpak/$APP_ID.desktop" "$BUILD_DIR/files/share/applications/$APP_ID.desktop"
 cp "$ROOT_DIR/flatpak/$APP_ID.metainfo.xml" "$BUILD_DIR/files/share/metainfo/$APP_ID.metainfo.xml"
+{
+  echo '<?xml version="1.0" encoding="UTF-8"?>'
+  echo '<components version="1.0" origin="flatpak">'
+  sed '1d' "$ROOT_DIR/flatpak/$APP_ID.metainfo.xml"
+  echo '</components>'
+} | gzip -9 -n > "$BUILD_DIR/files/share/app-info/xmls/$APP_ID.xml.gz"
 cp "$ROOT_DIR/src-tauri/icons/icon.svg" "$BUILD_DIR/files/share/icons/hicolor/scalable/apps/$APP_ID.svg"
 cp "$ROOT_DIR/src-tauri/icons/32x32.png" "$BUILD_DIR/files/share/icons/hicolor/32x32/apps/$APP_ID.png"
 cp "$ROOT_DIR/src-tauri/icons/128x128.png" "$BUILD_DIR/files/share/icons/hicolor/128x128/apps/$APP_ID.png"
@@ -62,8 +69,10 @@ flatpak build-bundle "$REPO_DIR" "$BUNDLE_FILE" "$APP_ID"
 
 if [ "${FLATPAK_SKIP_INSTALL:-0}" != "1" ]; then
   echo "4/4 Installation dans le Flatpak utilisateur..."
+  flatpak --user uninstall -y --delete-data "$APP_ID" >/dev/null 2>&1 || true
+  flatpak --user remote-delete --force calculatrice-origin >/dev/null 2>&1 || true
   flatpak --user remote-delete --force calculatrice-local-origin >/dev/null 2>&1 || true
-  flatpak --user uninstall -y "$APP_ID" >/dev/null 2>&1 || true
+  rm -rf "$HOME/.local/share/fr.tonyboysuper.calculatrice" "$HOME/.cache/fr.tonyboysuper.calculatrice" 2>/dev/null || true
   flatpak --user install -y --bundle "$BUNDLE_FILE"
 fi
 
