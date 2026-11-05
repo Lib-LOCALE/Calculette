@@ -41,7 +41,7 @@
         {
           "type": "git",
           "url": "https://github.com/Lib-LOCALE/calculatrice.git",
-          "commit": "dcbb16e07f6690517a7f6c98982830164a9a80e8"
+          "commit": "bc9c4eb0bb6dbd20f236f7131a344a256aaf3e4c"
         },
         "cargo-sources.json"
       ]
