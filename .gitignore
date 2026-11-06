@@ -5,3 +5,6 @@ src-tauri/.sysroot
 calculatrice.flatpak
 CLAUDE.md
 AGENTS.md
+
+/target/
+/.flatpak-builder/
