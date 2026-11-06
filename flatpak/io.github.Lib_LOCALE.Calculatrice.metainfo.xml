@@ -29,9 +29,9 @@
       <li>Adaptive layout with slide-up drawer or side-by-side History &amp; Memory panel</li>
     </ul>
   </description>
-  <url type="homepage">https://github.com/Lib-LOCALE/calculatrice</url>
-  <url type="bugtracker">https://github.com/Lib-LOCALE/calculatrice/issues</url>
-  <url type="vcs-browser">https://github.com/Lib-LOCALE/calculatrice</url>
+  <url type="homepage">https://github.com/Lib-LOCALE/Calculette</url>
+  <url type="bugtracker">https://github.com/Lib-LOCALE/Calculette/issues</url>
+  <url type="vcs-browser">https://github.com/Lib-LOCALE/Calculette</url>
   <launchable type="desktop-id">io.github.Lib_LOCALE.Calculatrice.desktop</launchable>
   <provides>
     <binary>calculatrice</binary>
@@ -60,7 +60,7 @@
   <screenshots>
     <screenshot type="default">
       <caption>Scientific Mode with History sidebar</caption>
-      <image type="source" width="820" height="640">https://raw.githubusercontent.com/Lib-LOCALE/calculatrice/main/docs/screenshot.png</image>
+      <image type="source" width="820" height="640">https://raw.githubusercontent.com/Lib-LOCALE/Calculette/main/docs/screenshot.png</image>
     </screenshot>
   </screenshots>
   <content_rating type="oars-1.1" />
