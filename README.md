@@ -1,144 +1,106 @@
 <div align="center">
-
-<img src="src-tauri/icons/icon.svg" width="128" height="128" alt="Calculatrice Icon">
+<img src="icons/icon.svg" width="112" height="112" alt="Calculette">
 
 # Calculette
 
-**A fast, modern desktop calculator for Linux & Wayland — inspired by Windows Calculator, powered by 128-bit exact Rust decimal math, and styled with Catppuccin, Tokyo Night, Dracula, Nord & Gruvbox themes.**
+Standard and scientific calculator for Linux and Wayland, written in Rust with a native Slint interface.
 
-[![Release](https://img.shields.io/github/v/release/Lib-LOCALE/calculatrice?label=release&color=cba6f7)](https://github.com/Lib-LOCALE/calculatrice/releases/latest)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20Wayland%20%7C%20Flatpak-89b4fa)](https://github.com/Lib-LOCALE/calculatrice/releases/latest)
-[![Stack](https://img.shields.io/badge/stack-Rust%20%2B%20Tauri%202%20%2B%20Svelte%205-fab387)](https://github.com/Lib-LOCALE/calculatrice)
-[![Themes](https://img.shields.io/badge/themes-Catppuccin%20%7C%20Tokyo%20Night%20%7C%20Dracula%20%7C%20Nord%20%7C%20Gruvbox-f5c2e7)](https://github.com/Lib-LOCALE/calculatrice)
-[![License: MIT](https://img.shields.io/badge/license-MIT-a6e3a1.svg)](LICENSE)
+[Releases](https://github.com/Lib-LOCALE/calculatrice/releases) · [Report a bug](https://github.com/Lib-LOCALE/calculatrice/issues)
 
-[**Download Flatpak (`v0.1.0`)**](https://github.com/Lib-LOCALE/calculatrice/releases/latest) · [**Report a Bug**](https://github.com/Lib-LOCALE/calculatrice/issues) · [**Request a Feature**](https://github.com/Lib-LOCALE/calculatrice/issues)
-
-<br>
-
-<img src="docs/screenshot.png" width="820" alt="Calculatrice Scientific Mode & History in Catppuccin Mocha">
-
+<img src="docs/screenshot.png" width="820" alt="Calculette — scientific mode and history">
 </div>
 
----
+## Features
 
-## Why Calculette?
+- **Standard and scientific modes:** immediate execution (`2 + 3 × 4 = 20`) or operator precedence (`2 + 3 × 4 = 14`).
+- **Decimal arithmetic:** the existing `rust_decimal` engine computes basic arithmetic in decimal (`0.1 + 0.2 = 0.3`). Transcendental functions use `f64`, rounded to 15 significant digits.
+- **Scientific functions:** nested parentheses, DEG/RAD/GRAD, inverse and hyperbolic trigonometry, powers, roots, logarithms, factorial, modulo, π and e.
+- **History and memory:** recall results and manage individual memory entries. A permanent panel appears at 640 logical pixels; compact windows use a drawer.
+- **Eight themes and seven accents:** Catppuccin Mocha, Macchiato, Frappé and Latte, Tokyo Night, Dracula, Nord and Gruvbox.
+- **Six languages:** French, English, German, Italian, Spanish and Portuguese, including number formatting and accessible button labels.
+- **Native input:** physical numpad codes under Wayland and X11, independent of NumLock. Keyboard navigation and OS accessibility are enabled.
 
-Linux has plenty of calculators, yet switching from **Windows Calculator** to **GNOME Calculator**, **KCalc**, or **Galculator** often comes with trade-offs: missing immediate-execution Standard mode, inconsistent numpad handling under Wayland, rigid toolkit theming, or floating-point rounding artifacts.
+Slint renders the interface directly. No WebKitGTK, Tauri, Node.js or JavaScript runtime is needed to build or run this version. Lower memory use and faster startup are expected benefits, not measured benchmark results.
 
-**Calculette** brings the intuitive muscle memory of Windows Calculator to Linux and Wayland (`Pop!_OS`, `COSMIC`, `GNOME`, `KDE Plasma`, `Hyprland`, `Sway`) in a lightweight native binary built with **Rust**, **Tauri 2**, and **Svelte 5**:
+## Build and run
 
-- **True 128-bit Decimal Arithmetic (`rust_decimal`)** — Up to 28 significant digits with zero binary floating-point surprises: `0.1 + 0.2 = 0.3` and `1 ÷ 3 × 3 = 1`. Right-angle trigonometry is exact (`sin(180°) = 0`, `cos(90°) = 0`, `tan(45°) = 1`).
-- **Dual Calculation Engines (Standard vs. Scientific)**
-  - **Standard Mode (`Alt+1`)**: Classic immediate execution (`2 + 3 × 4 = 20`), contextual percentages (`200 + 10% = 220`), reciprocals (`1/x`), squares (`x²`), square roots (`√x`), and `=` operation repeat.
-  - **Scientific Mode (`Alt+2`)**: Full operator precedence (`2 + 3 × 4 = 14`), nested parentheses with a live depth badge, `DEG` / `RAD` / `GRAD` angle units, `2nd` and hyperbolic (`hyp`) function layers, powers (`xʸ`, `10ˣ`, `2ˣ`, `eˣ`), roots (`√x`, `∛x`, `ʸ√x`), logarithms (`log`, `ln`), factorial (`n!`), modulo (`mod`), absolute value (`|x|`), and constants (`π`, `e`).
-- **First-Class Wayland & Numpad Support** — Hardware scancode detection (`Numpad0`–`Numpad9`, `NumpadDecimal`, `NumpadComma`, `NumpadAdd`, `NumpadSubtract`, `NumpadMultiply`, `NumpadDivide`, `NumpadEnter`, plus XKB `KP_*` keys) ensures your numeric keypad always works on Wayland regardless of `NumLock` state. Includes automatic DMA-BUF fallback for NVIDIA Wayland sessions.
-- **8 Iconic Linux Themes + 7 Accent Colors** — Switch between **Catppuccin** (**Mocha**, **Macchiato**, **Frappé**, **Latte**), **Tokyo Night**, **Dracula**, **Nord**, and **Gruvbox**, each paired with **7 selectable accent colors** directly from the `☰` settings drawer.
-- **Adaptive Responsive Layout** — Works as a compact desktop calculator with a slide-up **History & Memory** drawer, and automatically expands into a two-column split view with a permanent sidebar as soon as the window is widened (`≥ 640 px`).
-- **6 Languages with Locale-Aware Formatting** — Instant switching between **English** (`🇬🇧`), **Français** (`🇫🇷`), **Deutsch** (`🇩🇪`), **Italiano** (`🇮🇹`), **Español** (`🇪🇸`), and **Português** (`🇵🇹`), automatically adapting thousands/decimal separators, error diagnostics, and accessibility labels.
-
----
-
-## Comparison with Other Desktop Calculators
-
-| Feature | **Calculette** | Windows Calculator | GNOME Calculator | KCalc |
-| :--- | :---: | :---: | :---: | :---: |
-| **Native Linux / Wayland** | ✅ | ❌ (Windows only) | ✅ | ✅ |
-| **128-bit Exact Decimal Math** | ✅ (`rust_decimal`) | ✅ | ✅ (MPFR) | ✅ (GMP/MPFR) |
-| **Immediate-Execution Standard Mode** | ✅ (`2 + 3 × 4 = 20`) | ✅ | ❌ (Expression only) | ✅ |
-| **Operator-Precedence Scientific Mode** | ✅ (`2 + 3 × 4 = 14`) | ✅ | ✅ | ✅ |
-| **Adaptive Split-View History & Memory** | ✅ | ✅ | ❌ | ❌ |
-| **Wayland Numpad (`NumLock` independent)** | ✅ | N/A | ⚠️ Compositor-dependent | ⚠️ Compositor-dependent |
-| **Built-in Linux Themes (Catppuccin, Tokyo Night, Dracula, Nord, Gruvbox)** | ✅ (8 themes × 7 accents) | ❌ | ❌ | ❌ |
-| **In-App Instant Language Switcher** | ✅ (6 languages) | ❌ (OS locale) | ❌ (OS locale) | ✅ |
-
----
-
-## Installation
-
-### Option 1 — Flatpak Bundle (Recommended for Linux)
-
-Download `calculatrice.flatpak` from the [**Latest Release**](https://github.com/Lib-LOCALE/calculatrice/releases/latest) and install it in your user Flatpak installation:
+Requires Rust **1.92 or newer**, a C/C++ build toolchain, and the Linux font/windowing development libraries. On Ubuntu:
 
 ```bash
-# Download and install the latest Flatpak bundle
-curl -L -o calculatrice.flatpak https://github.com/Lib-LOCALE/calculatrice/releases/latest/download/calculatrice.flatpak
-flatpak --user install -y --bundle calculatrice.flatpak
+sudo apt install build-essential pkg-config libfontconfig1-dev libfreetype6-dev libxkbcommon-dev libwayland-dev libx11-dev libxcb1-dev libegl1-mesa-dev
+cargo test --locked --workspace
+cargo run --locked
+cargo build --locked --release
+```
 
-# Launch Calculatrice
+The executable is `target/release/calculatrice`. Slint uses Winit with FemtoVG by default. A software renderer is included for troubleshooting:
+
+```bash
+SLINT_BACKEND=winit-software cargo run --locked
+```
+
+## Flatpak
+
+The app ID remains `io.github.Lib_LOCALE.Calculatrice`. The native build uses **org.freedesktop.Platform 25.08**, rather than GNOME/WebKitGTK.
+
+Install Flatpak and `flatpak-builder` (or the `org.flatpak.Builder` app), and configure the Flathub user remote. Then:
+
+```bash
+# Build in the Flatpak SDK and install/update the user application
+bash scripts/build-flatpak.sh
+
+# Build the bundle without installing it
+FLATPAK_SKIP_INSTALL=1 bash scripts/build-flatpak.sh
+
 flatpak run io.github.Lib_LOCALE.Calculatrice
 ```
 
-> **Note:** Calculatrice uses the standard `org.gnome.Platform//50` runtime. If not already installed on your machine, install it via `flatpak install flathub org.gnome.Platform//50`.
-
-### Option 2 — Build & Install from Source
-
-Requires **Rust** (stable, `1.85+`), **Node.js** (`20+`), and **Flatpak**:
+The script compiles inside the SDK to avoid linking against a newer host glibc. It updates the installation without deleting user data. Dependencies are fetched with checksums, then Cargo builds offline with the committed lockfile. After changing dependencies, regenerate `flatpak/cargo-sources.json`:
 
 ```bash
-git clone https://github.com/Lib-LOCALE/calculatrice.git
-cd calculatrice
-npm install
-
-# Run the 17 Rust calculation engine unit test suites
-cargo test --manifest-path src-tauri/moteur/Cargo.toml
-
-# Verify Svelte 5 + TypeScript types
-npm run check
-
-# Run in development mode
-npm run tauri dev
-
-# Build optimized release binary, package calculatrice.flatpak, and install to --user
-npm run flatpak
+python3 scripts/generate-cargo-sources.py
 ```
 
----
+The manifest deliberately builds the local checkout. For a Flathub submission, replace its directory source with the published Git commit containing this migration; do not reuse the old Tauri commit. Existing releases and the upstream Flathub submission are not changed by a local build.
 
-## Keyboard Shortcuts
+## Keyboard shortcuts
 
-| Shortcut | Action |
-| :--- | :--- |
-| `0`–`9`, `.` or `,` (Main keyboard & Numpad) | Digits & decimal separator |
-| `+`, `-`, `*`, `/` (Main keyboard & Numpad) | Basic arithmetic operations |
-| `Enter`, `NumpadEnter`, or `=` | Evaluate expression / repeat last operation |
-| `Escape` | Clear all (`C`) |
-| `Delete` | Clear current entry (`CE`) |
-| `Backspace` | Delete last digit (`⌫`) |
-| `Alt+1` / `Alt+2` | Switch to **Standard** / **Scientific** mode |
-| `H` | Toggle History drawer |
-| `Ctrl+C` / `Ctrl+V` | Copy result / Paste number (parses both `.` and `,` formats) |
-| `Ctrl+L` / `Ctrl+R` / `Ctrl+M` / `Ctrl+P` / `Ctrl+Q` | Memory: `MC` / `MR` / `MS` / `M+` / `M−` |
-| `F9` | Toggle sign (`+/−`) |
-| `R` / `Q` / `@` / `%` | Reciprocal (`1/x`) / Square (`x²`) / Square root (`√x`) / Percent (`%`) |
-| `(` / `)` / `^` / `!` / `P` | Parentheses / Power (`xʸ`) / Factorial (`n!`) / Pi (`π`) |
-| `S` / `O` / `T` / `L` / `N` | Scientific: `sin` / `cos` / `tan` / `log` / `ln` |
+| Keys | Action |
+| --- | --- |
+| `0`–`9`, `.` / `,`, numpad | Enter numbers |
+| `+`, `-`, `*`, `/`, `Enter` / `=` | Arithmetic and equals |
+| `Escape`, `Delete`, `Backspace` | Clear, clear entry, delete digit |
+| `Alt+1`, `Alt+2` | Standard / scientific mode |
+| `H` | History drawer |
+| `Ctrl+C`, `Ctrl+V` | Copy / paste number |
+| `Ctrl+L`, `Ctrl+R`, `Ctrl+M`, `Ctrl+P`, `Ctrl+Q` | MC / MR / MS / M+ / M− |
+| `F9`, `R`, `Q`, `@`, `%` | Negate / reciprocal / square / square root / percent |
+| `(`, `)`, `^`, `!`, `P` | Parentheses / power / factorial / π |
+| `S`, `O`, `T`, `L`, `N` | sin / cos / tan / log / ln |
 
----
+Scientific shortcuts apply in scientific mode. When settings are open, keyboard input is left to its controls. Clipboard availability depends on the compositor's clipboard protocol.
 
-## Project Architecture
+## Preferences and migration
+
+The native app stores language, theme and accent in `$XDG_CONFIG_HOME/io.github.Lib_LOCALE.Calculatrice/preferences.json` (or `~/.config/…`). Invalid settings fall back to defaults. Initial language follows `LC_ALL`, `LC_MESSAGES`, then `LANG`, with French as fallback.
+
+Preferences previously stored in WebKit localStorage are retained on disk but are not imported: select the theme and language once in the native app. As before, memory and calculation history last for the current session.
+
+## Source layout
 
 ```text
-calculatrice/
-├── src-tauri/
-│   ├── moteur/              # Pure Rust 128-bit decimal calculation engine + 17 test suites
-│   ├── src/main.rs          # Tauri 2 native shell + Wayland/NVIDIA environment setup
-│   └── icons/               # Multi-resolution PNGs + animated SVG app icon
-├── src/
-│   ├── App.svelte           # Responsive calculator UI, settings drawer & split-view panel
-│   ├── app.css              # Official Catppuccin Latte, Frappé, Macchiato & Mocha palettes
-│   └── lib/
-│       ├── calc.svelte.ts   # Svelte 5 Runes reactive state store
-│       ├── i18n.ts          # 6-language translations & locale-aware number formatter
-│       ├── keys.ts          # Keypad definitions & Wayland-resilient keyboard/numpad mapper
-│       └── LogoAnime.svelte # Theme-reactive animated vector icon component
-├── assets/                  # Native VectorCraft (.vectorcraft) & EffectCraft (.ecproj) icon sources
-├── flatpak/                 # Desktop entry, AppStream metainfo & Flatpak manifest (io.github.Lib_LOCALE.Calculatrice)
-└── scripts/build-flatpak.sh # One-step release build & Flatpak bundle generator
+moteur/                     Pure Rust engine and its 17 original tests
+src/main.rs                 Native window, engine callbacks, Winit input
+src/native.rs               Key definitions, locale formatting, preferences
+src/smoke.rs                Debug-only graphical smoke test
+ui/calculatrice.slint       Responsive native interface
+ui/data/                    Existing translations, key layers and theme palettes
+icons/                      Existing app icons
+flatpak/                    Offline build manifest and desktop metadata
+scripts/                    SDK bundle build and lockfile source generator
+assets/                     Editable original artwork
 ```
-
----
 
 ## License
 
-Released under the [MIT License](LICENSE). Contributions, bug reports, and feature requests are welcome!
+Calculette's source code remains [MIT](LICENSE). Slint is used under its [Royalty-free Desktop, Mobile, and Web Applications License](https://github.com/slint-ui/slint/blob/v1.18.1/LICENSES/LicenseRef-Slint-Royalty-free-2.0.md); the required `AboutSlint` attribution is accessible from the settings menu. Dependencies retain their respective licenses.

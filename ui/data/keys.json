@@ -1,0 +1,1012 @@
+{
+  "standard": [
+    [
+      {
+        "base": {
+          "id": "pct",
+          "label": "%",
+          "aria": "Pourcentage",
+          "genre": "fonction",
+          "key": {
+            "type": "percent"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "ce",
+          "label": "CE",
+          "aria": "Effacer l'entrée",
+          "genre": "fonction",
+          "key": {
+            "type": "clearEntry"
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "clear",
+          "label": "C",
+          "aria": "Tout effacer",
+          "genre": "fonction",
+          "key": {
+            "type": "clear"
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "back",
+          "label": "⌫",
+          "aria": "Retour arrière",
+          "genre": "fonction",
+          "key": {
+            "type": "backspace"
+          },
+          "sure": true
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "inv",
+          "label": "1/x",
+          "aria": "Inverse",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "inverse"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "sqr",
+          "label": "x{2}",
+          "aria": "Carré",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "square"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "sqrt",
+          "label": "√x",
+          "aria": "Racine carrée",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "sqrt"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "div",
+          "label": "÷",
+          "aria": "Diviser par",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "div"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "d7",
+          "label": "7",
+          "aria": "Sept",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 7
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d8",
+          "label": "8",
+          "aria": "Huit",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 8
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d9",
+          "label": "9",
+          "aria": "Neuf",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 9
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "mul",
+          "label": "×",
+          "aria": "Multiplier par",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "mul"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "d4",
+          "label": "4",
+          "aria": "Quatre",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 4
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d5",
+          "label": "5",
+          "aria": "Cinq",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 5
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d6",
+          "label": "6",
+          "aria": "Six",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 6
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "sub",
+          "label": "−",
+          "aria": "Moins",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "sub"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "d1",
+          "label": "1",
+          "aria": "Un",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 1
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d2",
+          "label": "2",
+          "aria": "Deux",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 2
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d3",
+          "label": "3",
+          "aria": "Trois",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 3
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "add",
+          "label": "+",
+          "aria": "Plus",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "add"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "neg",
+          "label": "+/−",
+          "aria": "Changer de signe",
+          "genre": "chiffre",
+          "key": {
+            "type": "unary",
+            "value": "negate"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "d0",
+          "label": "0",
+          "aria": "Zéro",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 0
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "dec",
+          "label": ",",
+          "aria": "Virgule",
+          "genre": "chiffre",
+          "key": {
+            "type": "decimal"
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "eq",
+          "label": "=",
+          "aria": "Égal",
+          "genre": "egal",
+          "key": {
+            "type": "equals"
+          },
+          "sure": true
+        }
+      }
+    ]
+  ],
+  "scientifique": [
+    [
+      {
+        "base": {
+          "id": "seconde",
+          "label": "2nde",
+          "aria": "Fonctions secondaires",
+          "genre": "fonction",
+          "bascule": "seconde"
+        }
+      },
+      {
+        "base": {
+          "id": "hyp",
+          "label": "hyp",
+          "aria": "Fonctions hyperboliques",
+          "genre": "fonction",
+          "bascule": "hyp"
+        }
+      },
+      {
+        "base": {
+          "id": "sin",
+          "label": "sin",
+          "aria": "Sinus",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "sin"
+          }
+        },
+        "seconde": {
+          "id": "asin",
+          "label": "sin{−1}",
+          "aria": "Arc sinus",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "asin"
+          }
+        },
+        "hyp": {
+          "id": "sinh",
+          "label": "sinh",
+          "aria": "Sinus hyperbolique",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "sinh"
+          }
+        },
+        "hypSeconde": {
+          "id": "asinh",
+          "label": "sinh{−1}",
+          "aria": "Argument sinus hyperbolique",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "asinh"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "cos",
+          "label": "cos",
+          "aria": "Cosinus",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "cos"
+          }
+        },
+        "seconde": {
+          "id": "acos",
+          "label": "cos{−1}",
+          "aria": "Arc cosinus",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "acos"
+          }
+        },
+        "hyp": {
+          "id": "cosh",
+          "label": "cosh",
+          "aria": "Cosinus hyperbolique",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "cosh"
+          }
+        },
+        "hypSeconde": {
+          "id": "acosh",
+          "label": "cosh{−1}",
+          "aria": "Argument cosinus hyperbolique",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "acosh"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "tan",
+          "label": "tan",
+          "aria": "Tangente",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "tan"
+          }
+        },
+        "seconde": {
+          "id": "atan",
+          "label": "tan{−1}",
+          "aria": "Arc tangente",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "atan"
+          }
+        },
+        "hyp": {
+          "id": "tanh",
+          "label": "tanh",
+          "aria": "Tangente hyperbolique",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "tanh"
+          }
+        },
+        "hypSeconde": {
+          "id": "atanh",
+          "label": "tanh{−1}",
+          "aria": "Argument tangente hyperbolique",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "atanh"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "pi",
+          "label": "π",
+          "aria": "Pi",
+          "genre": "fonction",
+          "key": {
+            "type": "constant",
+            "value": "pi"
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "e",
+          "label": "e",
+          "aria": "Nombre d'Euler",
+          "genre": "fonction",
+          "key": {
+            "type": "constant",
+            "value": "e"
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "ce",
+          "label": "CE",
+          "aria": "Effacer l'entrée",
+          "genre": "fonction",
+          "key": {
+            "type": "clearEntry"
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "clear",
+          "label": "C",
+          "aria": "Tout effacer",
+          "genre": "fonction",
+          "key": {
+            "type": "clear"
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "back",
+          "label": "⌫",
+          "aria": "Retour arrière",
+          "genre": "fonction",
+          "key": {
+            "type": "backspace"
+          },
+          "sure": true
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "sqr",
+          "label": "x{2}",
+          "aria": "Carré",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "square"
+          }
+        },
+        "seconde": {
+          "id": "cube",
+          "label": "x{3}",
+          "aria": "Cube",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "cube"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "inv",
+          "label": "1/x",
+          "aria": "Inverse",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "inverse"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "abs",
+          "label": "|x|",
+          "aria": "Valeur absolue",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "abs"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "exp",
+          "label": "e{x}",
+          "aria": "Exponentielle",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "exp"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "mod",
+          "label": "mod",
+          "aria": "Modulo",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "mod"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "sqrt",
+          "label": "√x",
+          "aria": "Racine carrée",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "sqrt"
+          }
+        },
+        "seconde": {
+          "id": "cbrt",
+          "label": "{3}√x",
+          "aria": "Racine cubique",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "cbrt"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "open",
+          "label": "(",
+          "aria": "Parenthèse ouvrante",
+          "genre": "fonction",
+          "key": {
+            "type": "open"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "close",
+          "label": ")",
+          "aria": "Parenthèse fermante",
+          "genre": "fonction",
+          "key": {
+            "type": "close"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "fact",
+          "label": "n!",
+          "aria": "Factorielle",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "fact"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "div",
+          "label": "÷",
+          "aria": "Diviser par",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "div"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "pow",
+          "label": "x{y}",
+          "aria": "Puissance",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "pow"
+          }
+        },
+        "seconde": {
+          "id": "root",
+          "label": "{y}√x",
+          "aria": "Racine y-ième",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "root"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "d7",
+          "label": "7",
+          "aria": "Sept",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 7
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d8",
+          "label": "8",
+          "aria": "Huit",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 8
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d9",
+          "label": "9",
+          "aria": "Neuf",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 9
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "mul",
+          "label": "×",
+          "aria": "Multiplier par",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "mul"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "pow10",
+          "label": "10{x}",
+          "aria": "Dix puissance x",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "pow10"
+          }
+        },
+        "seconde": {
+          "id": "pow2",
+          "label": "2{x}",
+          "aria": "Deux puissance x",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "pow2"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "d4",
+          "label": "4",
+          "aria": "Quatre",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 4
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d5",
+          "label": "5",
+          "aria": "Cinq",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 5
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d6",
+          "label": "6",
+          "aria": "Six",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 6
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "sub",
+          "label": "−",
+          "aria": "Moins",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "sub"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "log",
+          "label": "log",
+          "aria": "Logarithme décimal",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "log"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "d1",
+          "label": "1",
+          "aria": "Un",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 1
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d2",
+          "label": "2",
+          "aria": "Deux",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 2
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "d3",
+          "label": "3",
+          "aria": "Trois",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 3
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "add",
+          "label": "+",
+          "aria": "Plus",
+          "genre": "fonction",
+          "key": {
+            "type": "op",
+            "value": "add"
+          }
+        }
+      }
+    ],
+    [
+      {
+        "base": {
+          "id": "ln",
+          "label": "ln",
+          "aria": "Logarithme népérien",
+          "genre": "fonction",
+          "key": {
+            "type": "unary",
+            "value": "ln"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "neg",
+          "label": "+/−",
+          "aria": "Changer de signe",
+          "genre": "chiffre",
+          "key": {
+            "type": "unary",
+            "value": "negate"
+          }
+        }
+      },
+      {
+        "base": {
+          "id": "d0",
+          "label": "0",
+          "aria": "Zéro",
+          "genre": "chiffre",
+          "key": {
+            "type": "digit",
+            "value": 0
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "dec",
+          "label": ",",
+          "aria": "Virgule",
+          "genre": "chiffre",
+          "key": {
+            "type": "decimal"
+          },
+          "sure": true
+        }
+      },
+      {
+        "base": {
+          "id": "eq",
+          "label": "=",
+          "aria": "Égal",
+          "genre": "egal",
+          "key": {
+            "type": "equals"
+          },
+          "sure": true
+        }
+      }
+    ]
+  ],
+  "shortcuts": {
+    "0": "d0",
+    "1": "d1",
+    "2": "d2",
+    "3": "d3",
+    "4": "d4",
+    "5": "d5",
+    "6": "d6",
+    "7": "d7",
+    "8": "d8",
+    "9": "d9",
+    "KP_0": "d0",
+    "KP_1": "d1",
+    "KP_2": "d2",
+    "KP_3": "d3",
+    "KP_4": "d4",
+    "KP_5": "d5",
+    "KP_6": "d6",
+    "KP_7": "d7",
+    "KP_8": "d8",
+    "KP_9": "d9",
+    ".": "dec",
+    ",": "dec",
+    "Decimal": "dec",
+    "Separator": "dec",
+    "KP_Decimal": "dec",
+    "KP_Separator": "dec",
+    "KP_Delete": "dec",
+    "+": "add",
+    "Add": "add",
+    "KP_Add": "add",
+    "-": "sub",
+    "−": "sub",
+    "Subtract": "sub",
+    "KP_Subtract": "sub",
+    "*": "mul",
+    "×": "mul",
+    "Multiply": "mul",
+    "KP_Multiply": "mul",
+    "/": "div",
+    "÷": "div",
+    "Divide": "div",
+    "KP_Divide": "div",
+    "Enter": "eq",
+    "KP_Enter": "eq",
+    "=": "eq",
+    "KP_Equal": "eq",
+    "Escape": "clear",
+    "Delete": "ce",
+    "Clear": "ce",
+    "Backspace": "back",
+    "%": "pct",
+    "(": "open",
+    ")": "close",
+    "^": "pow",
+    "!": "fact",
+    "r": "inv",
+    "@": "sqrt",
+    "q": "sqr",
+    "F9": "neg",
+    "p": "pi",
+    "s": "sin",
+    "o": "cos",
+    "t": "tan",
+    "l": "log",
+    "n": "ln"
+  }
+}

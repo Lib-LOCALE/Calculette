@@ -1,0 +1,220 @@
+import "fonts/InterVariable.ttf";
+import { ScrollView, ComboBox, AboutSlint, Palette as WidgetPalette } from "std-widgets.slint";
+
+export struct CalcKey { id: string, label: string, aria: string, kind: int, enabled: bool, active: bool }
+export struct Record { expression: string, result: string }
+export global Palette {
+    in-out property <color> bg: #1e1e2e;
+    in-out property <color> panel: #181825;
+    in-out property <color> number: #45475a;
+    in-out property <color> function: #313244;
+    in-out property <color> hover: #585b70;
+    in-out property <color> text: #cdd6f4;
+    in-out property <color> muted: #a6adc8;
+    in-out property <color> accent: #cba6f7;
+    in-out property <color> on-accent: #11111b;
+    in-out property <color> red: #f38ba8;
+}
+component KeyButton inherits Rectangle {
+    in property <string> text;
+    in property <string> label: text;
+    in property <image> icon;
+    in property <bool> enabled: true;
+    in property <bool> primary;
+    in property <bool> number;
+    in property <bool> active;
+    in property <bool> flat;
+    callback clicked();
+    forward-focus: focus;
+    min-height: 30px;
+    min-width: 28px;
+    border-radius: 6px;
+    background: touch.pressed ? Palette.hover.darker(0.2) : primary || active ? Palette.accent : touch.has-hover || focus.has-focus ? Palette.hover : flat ? transparent : number ? Palette.number : Palette.function;
+    border-width: focus.has-focus ? 2px : 0px;
+    border-color: Palette.accent;
+    opacity: enabled ? 1 : 0.38;
+    accessible-role: button;
+    accessible-label: label;
+    accessible-enabled: enabled;
+    accessible-action-default => { if root.enabled { root.clicked(); } }
+    Image { source: root.icon; x: (parent.width - self.width) / 2; y: (parent.height - self.height) / 2; width: 18px; height: 18px; colorize: root.primary || root.active ? Palette.on-accent : Palette.text; }
+    Text { visible: root.icon.width == 0; text: root.text; color: root.primary || root.active ? Palette.on-accent : Palette.text; font-size: root.number ? 20px : 15px; horizontal-alignment: center; vertical-alignment: center; overflow: elide; }
+    focus := FocusScope {
+        enabled: root.enabled;
+        key-pressed(event) => {
+            if event.text == Key.Space || event.text == Key.Return { root.clicked(); return accept; }
+            return reject;
+        }
+    }
+    touch := TouchArea { enabled: root.enabled; clicked => { focus.focus(); root.clicked(); } }
+}
+export component CalculatorWindow inherits Window {
+    title: "Calculette";
+    icon: @image-url("../icons/icon.png");
+    preferred-width: 380px;
+    preferred-height: 640px;
+    min-width: 320px;
+    min-height: 540px;
+    max-width: 100000px;
+    max-height: 100000px;
+    background: Palette.bg;
+    default-font-family: "Inter Variable";
+    init => { WidgetPalette.color-scheme = root.theme-index == 3 ? ColorScheme.light : ColorScheme.dark; }
+    changed theme-index => { WidgetPalette.color-scheme = root.theme-index == 3 ? ColorScheme.light : ColorScheme.dark; }
+    in property <string> display: "0";
+    in property <string> expression;
+    in property <int> display-length;
+    in property <bool> error;
+    in-out property <bool> copied;
+    in property <bool> scientific;
+    in property <bool> has-memory;
+    in property <string> angle: "DEG";
+    in property <int> open-parens;
+    in property <[[CalcKey]]> keys;
+    in property <[Record]> history;
+    in property <[string]> memory;
+    in property <[string]> languages;
+    in property <[string]> themes;
+    in property <[string]> accents;
+    in-out property <int> language-index;
+    in-out property <int> theme-index;
+    in-out property <int> accent-index;
+    in-out property <bool> settings;
+    in-out property <bool> drawer;
+    in-out property <bool> memory-tab;
+    in-out property <bool> wide;
+    changed width => { root.wide = root.width >= 640px; }
+    callback press(string);
+    callback recall(bool, int);
+    callback memory-action(string, int);
+    callback configure();
+    pure callback translate(string, int) -> string;
+    callback copy();
+    pure function tr(key: string) -> string { return root.translate(key, root.language-index); }
+    HorizontalLayout {
+        spacing: 0px;
+        VerticalLayout {
+            padding: 6px;
+            spacing: 4px;
+            HorizontalLayout {
+                height: 40px;
+                KeyButton { width: 38px; icon: @image-url("icons/menu.svg"); label: root.tr("menuEtParametres"); flat: true; clicked => { root.settings = !root.settings; } }
+                Text { text: root.scientific ? root.tr("scientifique") : root.tr("standard"); color: Palette.text; font-size: 19px; font-weight: 600; vertical-alignment: center; overflow: elide; }
+                if !root.wide: KeyButton { width: 40px; icon: @image-url("icons/history.svg"); label: root.tr("afficherHistorique"); flat: true; clicked => { root.drawer = !root.drawer; root.memory-tab = false; } }
+            }
+            Text { height: 26px; text: root.expression; color: Palette.muted; horizontal-alignment: right; vertical-alignment: center; overflow: elide; }
+            Rectangle {
+                height: 68px;
+                accessible-role: text;
+                accessible-label: root.tr("affichage") + ": " + root.display;
+                Text { width: parent.width; height: parent.height; wrap: root.error ? word-wrap : no-wrap; text: root.display; color: root.error ? Palette.red : Palette.text; horizontal-alignment: right; vertical-alignment: center; font-weight: 600; font-size: root.error ? 22px : root.display-length > 18 ? 25px : root.display-length > 12 ? 32px : 48px; overflow: elide; }
+                Text { width: parent.width; height: 18px; text: root.tr("copie"); color: Palette.accent; font-size: 12px; horizontal-alignment: right; visible: root.copied; }
+                TouchArea { double-clicked => { root.copy(); } }
+            }
+            if root.scientific: HorizontalLayout {
+                height: 30px;
+                KeyButton { text: root.angle; flat: true; label: root.angle == "DEG" ? root.tr("degVersRad") : root.angle == "RAD" ? root.tr("radVersGrad") : root.tr("gradVersDeg"); clicked => { root.press("angle"); } }
+                Text { text: root.open-parens > 0 ? "( " + root.open-parens : ""; color: Palette.muted; vertical-alignment: center; }
+                Rectangle { horizontal-stretch: 1; }
+            }
+            HorizontalLayout {
+                height: 34px; spacing: 2px;
+                KeyButton { text: "MC"; label: root.tr("mcTitre"); flat: true; enabled: root.has-memory && !root.error; clicked => { root.memory-action("memoryClear", -1); } }
+                KeyButton { text: "MR"; label: root.tr("mrTitre"); flat: true; enabled: root.has-memory && !root.error; clicked => { root.memory-action("memoryRecall", -1); } }
+                KeyButton { text: "M+"; label: root.tr("mPlusTitre"); flat: true; enabled: !root.error; clicked => { root.memory-action("memoryAdd", -1); } }
+                KeyButton { text: "M−"; label: root.tr("mMoinsTitre"); flat: true; enabled: !root.error; clicked => { root.memory-action("memorySub", -1); } }
+                KeyButton { text: "MS"; label: root.tr("msTitre"); flat: true; enabled: !root.error; clicked => { root.press("store"); } }
+                if !root.wide: KeyButton { text: "M"; label: root.tr("afficherMemoire"); flat: true; clicked => { root.drawer = !root.drawer; root.memory-tab = true; } }
+            }
+            VerticalLayout {
+                spacing: 3px;
+                for row in root.keys: HorizontalLayout {
+                    spacing: 3px;
+                    for key in row: KeyButton {
+                        vertical-stretch: 1;
+                        text: key.label; label: key.aria; number: key.kind == 1; primary: key.kind == 2;
+                        enabled: key.enabled; active: key.active;
+                        clicked => { root.press(key.id); }
+                    }
+                }
+            }
+        }
+        if root.wide: Rectangle { width: 260px; background: Palette.panel; }
+    }
+    // The same panel becomes a bottom drawer on compact windows.
+    if root.wide || root.drawer: Rectangle {
+        x: root.wide ? root.width - 260px : 0px;
+        y: root.wide ? 0px : root.height * 0.32;
+        width: root.wide ? 260px : root.width;
+        height: root.wide ? root.height : root.height * 0.68;
+        background: Palette.panel;
+        VerticalLayout {
+            padding: 12px; spacing: 8px;
+            HorizontalLayout {
+                spacing: 5px;
+                KeyButton { text: root.tr("historique"); active: !root.memory-tab; flat: true; clicked => { root.memory-tab = false; } }
+                KeyButton { text: root.tr("memoire"); active: root.memory-tab; flat: true; clicked => { root.memory-tab = true; } }
+                if !root.wide: KeyButton { width: 32px; icon: @image-url("icons/close.svg"); label: root.tr("fermerPanneau"); flat: true; clicked => { root.drawer = false; } }
+            }
+            ScrollView {
+                vertical-stretch: 1;
+                VerticalLayout {
+                    spacing: 6px;
+                    if (!root.memory-tab && root.history.length == 0) || (root.memory-tab && root.memory.length == 0): Text { text: root.memory-tab ? root.tr("aucuneMemoire") : root.tr("aucunHistorique"); color: Palette.muted; wrap: word-wrap; }
+                    for item[index] in root.history: Rectangle {
+                        visible: !root.memory-tab;
+                        height: root.memory-tab ? 0px : 76px;
+                        border-radius: 6px;
+                        background: hist-touch.has-hover ? Palette.function : transparent;
+                        VerticalLayout { padding: 8px; Text { text: item.expression; color: Palette.muted; horizontal-alignment: right; overflow: elide; } KeyButton { text: item.result; label: item.expression + " = " + item.result; flat: true; clicked => { root.recall(false, index); } } }
+                        hist-touch := TouchArea { clicked => { root.recall(false, index); } }
+                    }
+                    for val[index] in root.memory: Rectangle {
+                        visible: root.memory-tab;
+                        height: root.memory-tab ? 84px : 0px;
+                        VerticalLayout {
+                            KeyButton { text: val; flat: true; clicked => { root.recall(true, index); } }
+                            HorizontalLayout {
+                                spacing: 4px;
+                                KeyButton { text: "MC"; label: root.tr("mcEntree"); clicked => { root.memory-action("memoryClear", index); } }
+                                KeyButton { text: "M+"; label: root.tr("mPlusEntree"); clicked => { root.memory-action("memoryAdd", index); } }
+                                KeyButton { text: "M−"; label: root.tr("mMoinsEntree"); clicked => { root.memory-action("memorySub", index); } }
+                            }
+                        }
+                    }
+                    Rectangle { vertical-stretch: 1; }
+                }
+            }
+            KeyButton { text: root.memory-tab ? root.tr("effacerMemoire") : root.tr("effacerHistorique"); enabled: root.memory-tab ? root.has-memory : root.history.length > 0; clicked => { if root.memory-tab { root.memory-action("memoryClear", -1); } else { root.press("history-clear"); } } }
+        }
+    }
+    if root.settings: Rectangle {
+        width: root.width; height: root.height;
+        background: #00000050;
+        TouchArea { clicked => { root.settings = false; } }
+    }
+    if root.settings: Rectangle {
+        x: 0px; y: 0px;
+        background: Palette.panel;
+        width: min(320px, root.width);
+        height: root.height;
+        ScrollView {
+            VerticalLayout {
+                padding: 14px; spacing: 10px;
+                HorizontalLayout { Text { text: root.tr("menuEtParametres"); color: Palette.text; font-size: 17px; vertical-alignment: center; } KeyButton { width: 34px; icon: @image-url("icons/close.svg"); label: root.tr("fermerMenu"); clicked => { root.settings = false; } } }
+                KeyButton { text: root.tr("standard") + "   Alt+1"; active: !root.scientific; clicked => { root.press("standard"); root.settings = false; } }
+                KeyButton { text: root.tr("scientifique") + "   Alt+2"; active: root.scientific; clicked => { root.press("scientifique"); root.settings = false; } }
+                Text { text: root.tr("themeCatppuccin"); color: Palette.muted; }
+                ComboBox { model: root.themes; current-index <=> root.theme-index; selected => { root.configure(); } }
+                Text { text: root.tr("couleurAccent"); color: Palette.muted; }
+                ComboBox { model: root.accents; current-index <=> root.accent-index; selected => { root.configure(); } }
+                Text { text: root.tr("langue"); color: Palette.muted; }
+                ComboBox { model: root.languages; current-index <=> root.language-index; selected => { root.configure(); } }
+                Rectangle { height: 16px; }
+                Image { source: @image-url("../icons/icon.svg"); height: 72px; image-fit: contain; }
+                Text { text: "Calculette 0.2.0"; color: Palette.text; horizontal-alignment: center; }
+                AboutSlint { }
+            }
+        }
+    }
+}

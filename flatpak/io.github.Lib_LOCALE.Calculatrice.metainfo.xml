@@ -16,10 +16,10 @@
   <developer_name>Lib-LOCALE</developer_name>
   <description>
     <p>
-      Calculette is a fast, native desktop calculator inspired by Windows Calculator, built with Rust (Tauri 2) and Svelte 5 for Linux &amp; Wayland. Features 128-bit exact decimal arithmetic, iconic Linux themes (Catppuccin, Tokyo Night, Dracula, Nord, Gruvbox), full numpad support, and 6 languages.
+      Calculette is a fast, native desktop calculator inspired by Windows Calculator, built with Rust and Slint for Linux &amp; Wayland. Features 128-bit exact decimal arithmetic, iconic Linux themes (Catppuccin, Tokyo Night, Dracula, Nord, Gruvbox), full numpad support, and 6 languages.
     </p>
     <p xml:lang="fr">
-      Calculette de bureau inspirée de Windows Calculator, écrite en Rust (Tauri 2) et Svelte 5 pour Linux et Wayland, avec arithmétique décimale exacte 128 bits, thèmes Catppuccin, Tokyo Night, Dracula, Nord et Gruvbox, et 6 langues.
+      Calculette de bureau inspirée de Windows Calculator, écrite en Rust et Slint pour Linux et Wayland, avec arithmétique décimale exacte 128 bits, thèmes Catppuccin, Tokyo Night, Dracula, Nord et Gruvbox, et 6 langues.
     </p>
     <ul>
       <li>128-bit exact decimal arithmetic in Rust (0.1 + 0.2 = 0.3, 1 ÷ 3 × 3 = 1)</li>
@@ -60,11 +60,14 @@
   <screenshots>
     <screenshot type="default">
       <caption>Scientific Mode with History sidebar</caption>
-      <image type="source" width="1280" height="800">https://raw.githubusercontent.com/Lib-LOCALE/calculatrice/main/docs/screenshot.png</image>
+      <image type="source" width="820" height="640">https://raw.githubusercontent.com/Lib-LOCALE/calculatrice/main/docs/screenshot.png</image>
     </screenshot>
   </screenshots>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="0.2.0" date="2026-11-06">
+      <description><p>Native Rust and Slint interface, without WebKitGTK. Existing calculation engine, themes and languages retained.</p></description>
+    </release>
     <release version="0.1.0" date="2026-11-05">
       <description>
         <p>Initial release featuring Standard and Scientific modes, 128-bit exact Rust decimal engine, 8 Linux themes (Catppuccin, Tokyo Night, Dracula, Nord, Gruvbox), and 6 languages.</p>
