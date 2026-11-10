@@ -260,11 +260,27 @@ struct SavedPreferences {
     accent: String,
 }
 fn preferences_path() -> Option<PathBuf> {
-    std::env::var_os("XDG_CONFIG_HOME")
-        .map(PathBuf::from)
-        .filter(|p| p.is_absolute())
-        .or_else(|| std::env::var_os("HOME").map(|p| PathBuf::from(p).join(".config")))
-        .map(|p| p.join("io.github.Lib_LOCALE.Calculatrice/preferences.json"))
+    #[cfg(target_os = "windows")]
+    {
+        std::env::var_os("APPDATA")
+            .map(PathBuf::from)
+            .or_else(|| {
+                std::env::var_os("USERPROFILE")
+                    .map(|p| PathBuf::from(p).join("AppData").join("Roaming"))
+            })
+            .map(|p| {
+                p.join("io.github.Lib_LOCALE.Calculatrice")
+                    .join("preferences.json")
+            })
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        std::env::var_os("XDG_CONFIG_HOME")
+            .map(PathBuf::from)
+            .filter(|p| p.is_absolute())
+            .or_else(|| std::env::var_os("HOME").map(|p| PathBuf::from(p).join(".config")))
+            .map(|p| p.join("io.github.Lib_LOCALE.Calculatrice/preferences.json"))
+    }
 }
 impl Preferences {
     pub fn load(data: &Data) -> Self {
@@ -272,6 +288,7 @@ impl Preferences {
             .iter()
             .filter_map(|k| std::env::var(k).ok())
             .find(|s| !s.is_empty())
+            .or_else(sys_locale::get_locale)
             .unwrap_or_default();
         let mut result = Self {
             language: data
@@ -301,7 +318,9 @@ impl Preferences {
     }
     pub fn save(&self, data: &Data) -> Result<(), Box<dyn std::error::Error>> {
         let path = preferences_path().ok_or("répertoire utilisateur introuvable")?;
-        std::fs::create_dir_all(path.parent().unwrap())?;
+        if let Some(parent) = path.parent() {
+            std::fs::create_dir_all(parent)?;
+        }
         let bytes = serde_json::to_vec_pretty(&SavedPreferences {
             language: data.languages[self.language]["code"]
                 .as_str()
@@ -312,6 +331,10 @@ impl Preferences {
         })?;
         let temp = path.with_extension(format!("{}.tmp", std::process::id()));
         std::fs::write(&temp, bytes)?;
+        #[cfg(target_os = "windows")]
+        if path.exists() {
+            let _ = std::fs::remove_file(&path);
+        }
         std::fs::rename(temp, path)?;
         Ok(())
     }
@@ -420,5 +443,28 @@ mod tests {
             memory_key("memoryRecall", -1),
             Some(Key::MemoryRecall(None))
         );
+    }
+    #[test]
+    fn preferences_path_and_serialization() {
+        let data = Data::load();
+        let prefs = Preferences {
+            language: 1,
+            theme: 2,
+            accent: 3,
+        };
+        assert!(preferences_path().is_some());
+        let json = serde_json::to_string(&SavedPreferences {
+            language: data.languages[prefs.language]["code"]
+                .as_str()
+                .unwrap()
+                .into(),
+            theme: data.themes[prefs.theme]["id"].as_str().unwrap().into(),
+            accent: ACCENTS[prefs.accent].into(),
+        })
+        .unwrap();
+        let deserialized: SavedPreferences = serde_json::from_str(&json).unwrap();
+        assert_eq!(deserialized.language, "en");
+        assert_eq!(deserialized.theme, "frappe");
+        assert_eq!(deserialized.accent, "lavender");
     }
 }
