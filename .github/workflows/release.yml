@@ -50,8 +50,26 @@ jobs:
           name: calculatrice-windows-x64
           path: target/release/calculatrice-windows-x64.zip
 
+  build-flatpak:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Install Flatpak build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder elfutils
+          flatpak --user remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+      - name: Build Flatpak bundle
+        run: |
+          FLATPAK_SKIP_INSTALL=1 bash scripts/build-flatpak.sh
+      - name: Upload Flatpak artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: calculatrice-flatpak
+          path: calculatrice.flatpak
+
   publish-release:
-    needs: [build-linux, build-windows]
+    needs: [build-linux, build-windows, build-flatpak]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
@@ -64,12 +82,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           tag_name="${GITHUB_REF_NAME:-v0.2.0}"
+          assets=()
+          [ -f artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz ] && assets+=(artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz)
+          [ -f artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip ] && assets+=(artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip)
+          [ -f artifacts/calculatrice-flatpak/calculatrice.flatpak ] && assets+=(artifacts/calculatrice-flatpak/calculatrice.flatpak)
+
           if gh release view "$tag_name" >/dev/null 2>&1; then
-            gh release upload "$tag_name" artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip --clobber
+            gh release upload "$tag_name" "${assets[@]}" --clobber
           else
-            gh release create "$tag_name" \
-              artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz \
-              artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip \
+            gh release create "$tag_name" "${assets[@]}" \
               --title "Calculette $tag_name" \
               --generate-notes
           fi

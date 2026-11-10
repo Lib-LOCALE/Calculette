@@ -65,8 +65,8 @@
   </screenshots>
   <content_rating type="oars-1.1" />
   <releases>
-    <release version="0.2.0" date="2026-11-06">
-      <description><p>Native Rust and Slint interface, without WebKitGTK. Existing calculation engine, themes and languages retained.</p></description>
+    <release version="0.2.0" date="2026-11-10">
+      <description><p>Native Rust and Slint interface. Cross-platform support for Linux and Windows, visual language flags and theme indicators, and CLI options.</p></description>
     </release>
     <release version="0.1.0" date="2026-11-05">
       <description>
