@@ -1,0 +1,75 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Linux build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libfontconfig1-dev libfreetype6-dev libxkbcommon-dev libxkbcommon-x11-dev
+      - name: Build release
+        run: cargo build --release --locked
+      - name: Package Linux
+        run: |
+          cd target/release
+          tar -czvf calculatrice-linux-x64.tar.gz calculatrice
+      - name: Upload Linux artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: calculatrice-linux-x64
+          path: target/release/calculatrice-linux-x64.tar.gz
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Build release
+        run: cargo build --release --locked
+      - name: Package Windows
+        shell: pwsh
+        run: |
+          Compress-Archive -Path target/release/calculatrice.exe -DestinationPath target/release/calculatrice-windows-x64.zip -Force
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: calculatrice-windows-x64
+          path: target/release/calculatrice-windows-x64.zip
+
+  publish-release:
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Publish GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag_name="${GITHUB_REF_NAME:-v0.2.0}"
+          if gh release view "$tag_name" >/dev/null 2>&1; then
+            gh release upload "$tag_name" artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip --clobber
+          else
+            gh release create "$tag_name" \
+              artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz \
+              artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip \
+              --title "Calculette $tag_name" \
+              --generate-notes
+          fi
