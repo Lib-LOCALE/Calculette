@@ -1,7 +1,7 @@
 <p align="center"><img src="icons/icon.svg" alt="Calculette" width="112"></p>
 <h1 align="center">Calculette</h1>
 
-<p align="center">A native standard and scientific calculator for Linux and Wayland.<br>Written in Rust, built with Slint, powered by decimal arithmetic.</p>
+<p align="center">A native standard and scientific calculator for Linux and Windows.<br>Written in Rust, built with Slint, powered by decimal arithmetic.</p>
 
 <p align="center">
   <a href="https://github.com/Lib-LOCALE/Calculette/actions/workflows/ci.yml"><img src="https://github.com/Lib-LOCALE/Calculette/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
@@ -34,7 +34,9 @@ See [Flatpak build and installation instructions](flatpak/README.md) for prerequ
 
 ## Build from source
 
-Use Rust **1.92 or newer**, a C/C++ build toolchain and the Linux windowing/font development libraries.
+Use Rust **1.92 or newer** and a C/C++ build toolchain.
+
+### Linux (Debian/Ubuntu)
 
 ```sh
 git clone https://github.com/Lib-LOCALE/Calculette.git
@@ -44,6 +46,23 @@ sudo apt install build-essential pkg-config libfontconfig1-dev libfreetype6-dev 
   libxkbcommon-dev libwayland-dev libx11-dev libxcb1-dev libegl1-mesa-dev
 cargo build --release --locked
 ./target/release/calculatrice
+```
+
+### Windows (10 / 11 x64)
+
+Prerequisites: Rust **1.92 or newer** and a C/C++ toolchain (MSVC or MinGW-w64).
+
+```powershell
+git clone https://github.com/Lib-LOCALE/Calculette.git
+cd Calculette
+cargo build --release
+.\target\release\calculatrice.exe
+```
+
+Or run the helper script:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\build-windows.ps1 -Run
 ```
 
 The executable renders directly through Slint and Winit. If a GPU renderer is unavailable:
@@ -67,11 +86,11 @@ SLINT_BACKEND=winit-software ./target/release/calculatrice
 
 Numbers accept `.` or `,`. Scientific shortcuts apply in scientific mode. When settings are open, keyboard input goes to their controls.
 
-Language, theme and accent use `$XDG_CONFIG_HOME/io.github.Lib_LOCALE.Calculatrice/preferences.json` (`~/.config/…` by default). Choose these once after migrating from the previous interface; its old settings are retained on disk. History and memory last for the current session.
+Language, theme and accent use `$XDG_CONFIG_HOME/io.github.Lib_LOCALE.Calculatrice/preferences.json` (`~/.config/…` by default on Linux, `%APPDATA%\io.github.Lib_LOCALE.Calculatrice\preferences.json` on Windows). Choose these once after migrating from the previous interface; its old settings are retained on disk. History and memory last for the current session.
 
 ## Project status
 
-**0.2.0 native port.** Linux/Wayland and X11 are the locally exercised platforms. The suite has **21 tests**; see [validation scope and limitations](docs/validation/slint-migration.md).
+**0.2.0 native port.** Linux/Wayland, X11, and Windows 10/11 x64 are supported platforms. The suite has **22 tests**; see [validation scope and limitations](docs/validation/slint-migration.md).
 
 Basic arithmetic uses `rust_decimal`. Transcendental functions use `f64`, rounded to 15 significant digits. Comparative RAM/startup performance, clipboard behaviour across compositors and screen-reader operation have not been benchmarked or comprehensively tested.
 

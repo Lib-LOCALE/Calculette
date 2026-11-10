@@ -37,8 +37,12 @@ fn step(weak: slint::Weak<CalculatorWindow>, index: usize) {
         });
         let names = ["compact", "wide", "latte-de", "settings", "memory", "error"];
         let buffer = ui.window().take_snapshot().expect("capture du rendu natif");
-        let prefix = std::env::var("CALCULETTE_SCREENSHOT")
-            .unwrap_or_else(|_| "/tmp/calculette-slint".into());
+        let prefix = std::env::var("CALCULETTE_SCREENSHOT").unwrap_or_else(|_| {
+            std::env::temp_dir()
+                .join("calculette-slint")
+                .to_string_lossy()
+                .into_owned()
+        });
         let path = format!("{prefix}-{}.ppm", names[index]);
         let mut bytes = format!("P6\n{} {}\n255\n", buffer.width(), buffer.height()).into_bytes();
         for pixel in buffer.as_slice() {
