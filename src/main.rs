@@ -93,11 +93,19 @@ impl App {
             })
             .collect::<Vec<_>>();
         ui.set_keys(ModelRc::new(VecModel::from(rows)));
-        ui.set_accents(strings(
-            native::ACCENTS
-                .iter()
-                .map(|id| tr["accents"][id].as_str().unwrap().to_owned()),
-        ));
+        ui.set_accents(strings(native::ACCENTS.iter().map(|id| {
+            let dot = match *id {
+                "mauve" => "🟣",
+                "blue" => "🔵",
+                "sapphire" => "🔷",
+                "lavender" => "🪻",
+                "peach" => "🍑",
+                "green" => "🟢",
+                "pink" => "🌸",
+                _ => "●",
+            };
+            format!("{dot} {}", tr["accents"][id].as_str().unwrap())
+        })));
         let palette = ui.global::<Palette>();
         let colors = &self.data.themes[self.preferences.theme]["colors"];
         let color = |key: &str| native::color(colors[key].as_str().unwrap());
@@ -174,27 +182,71 @@ fn strings(values: impl IntoIterator<Item = String>) -> ModelRc<slint::SharedStr
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let args: Vec<String> = std::env::args().collect();
+    let data = Data::load();
+    let cli = match native::CliOptions::parse(&args, &data) {
+        Ok(opts) => opts,
+        Err(err) => {
+            #[cfg(target_os = "windows")]
+            native::attach_console();
+            eprintln!("Erreur : {err}");
+            std::process::exit(1);
+        }
+    };
+
+    if cli.help {
+        #[cfg(target_os = "windows")]
+        native::attach_console();
+        native::CliOptions::print_help();
+        return Ok(());
+    }
+
+    if cli.version {
+        #[cfg(target_os = "windows")]
+        native::attach_console();
+        println!("Calculette 0.2.0");
+        return Ok(());
+    }
+
     slint::BackendSelector::new()
         .backend_name("winit".into())
         .select()?;
     let ui = CalculatorWindow::new()?;
-    let data = Data::load();
-    let preferences = Preferences::load(&data);
+    let mut preferences = Preferences::load(&data);
+    if let Some(l) = cli.language {
+        preferences.language = l;
+    }
+    if let Some(t) = cli.theme {
+        preferences.theme = t;
+    }
+    if let Some(a) = cli.accent {
+        preferences.accent = a;
+    }
+
+    let mut engine = Engine::new();
+    if let Some(m) = cli.mode {
+        engine.press(Key::SetMode(m));
+    }
+
     ui.set_language_index(preferences.language as i32);
     ui.set_theme_index(preferences.theme as i32);
     ui.set_accent_index(preferences.accent as i32);
-    ui.set_languages(strings(
-        data.languages
-            .iter()
-            .map(|l| l["nom"].as_str().unwrap().to_owned()),
-    ));
+    ui.set_languages(strings(data.languages.iter().map(|l| {
+        let drapeau = l["drapeau"].as_str().unwrap_or("");
+        let nom = l["nom"].as_str().unwrap_or("");
+        if drapeau.is_empty() {
+            nom.to_owned()
+        } else {
+            format!("{drapeau}  {nom}")
+        }
+    })));
     ui.set_themes(strings(
         data.themes
             .iter()
             .map(|t| native::theme_name(t["id"].as_str().unwrap()).to_owned()),
     ));
     let app = Rc::new(RefCell::new(App {
-        engine: Engine::new(),
+        engine,
         data,
         preferences,
         second: false,
@@ -340,7 +392,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         EventResult::PreventDefault
     });
     #[cfg(debug_assertions)]
-    if std::env::args().any(|a| a == "--smoke-test") {
+    if cli.smoke_test {
         smoke::run(&ui);
         ui.show()?;
         slint::run_event_loop_until_quit()?;
