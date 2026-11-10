@@ -138,14 +138,14 @@ pub fn color(hex: &str) -> slint::Color {
 }
 pub fn theme_name(id: &str) -> &str {
     match id {
-        "mocha" => "Mocha",
-        "macchiato" => "Macchiato",
-        "frappe" => "Frappé",
-        "latte" => "Latte",
-        "tokyo-night" => "Tokyo Night",
-        "dracula" => "Dracula",
-        "nord" => "Nord",
-        "gruvbox" => "Gruvbox",
+        "mocha" => "🌙 Mocha",
+        "macchiato" => "🌙 Macchiato",
+        "frappe" => "🌙 Frappé",
+        "latte" => "☀️ Latte",
+        "tokyo-night" => "🌃 Tokyo Night",
+        "dracula" => "🧛 Dracula",
+        "nord" => "❄️ Nord",
+        "gruvbox" => "🍂 Gruvbox",
         _ => id,
     }
 }
@@ -245,6 +245,145 @@ fn keyboard_action(
         return Some("history".into());
     }
     shortcuts.get(text).cloned()
+}
+
+#[cfg(target_os = "windows")]
+pub fn attach_console() {
+    unsafe {
+        unsafe extern "system" {
+            fn AttachConsole(dwProcessId: u32) -> i32;
+        }
+        const ATTACH_PARENT_PROCESS: u32 = 0xFFFFFFFF;
+        AttachConsole(ATTACH_PARENT_PROCESS);
+    }
+}
+
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
+pub struct CliOptions {
+    pub language: Option<usize>,
+    pub theme: Option<usize>,
+    pub accent: Option<usize>,
+    pub mode: Option<Mode>,
+    pub smoke_test: bool,
+    pub help: bool,
+    pub version: bool,
+}
+
+impl CliOptions {
+    pub fn parse(args: &[String], data: &Data) -> Result<Self, String> {
+        let mut opts = Self::default();
+        let mut iter = args.iter().peekable();
+        let _ = iter.next();
+
+        while let Some(arg) = iter.next() {
+            match arg.as_str() {
+                "--help" | "-h" => opts.help = true,
+                "--version" | "-v" => opts.version = true,
+                "--smoke-test" => opts.smoke_test = true,
+                "--lang" | "--language" | "-l" => {
+                    let val = iter
+                        .next()
+                        .ok_or_else(|| "Option requise pour --lang".to_owned())?;
+                    let val_lower = val.to_lowercase();
+                    let idx = data
+                        .languages
+                        .iter()
+                        .position(|l| {
+                            l["code"].as_str().unwrap().eq_ignore_ascii_case(&val_lower)
+                                || l["nom"].as_str().unwrap().to_lowercase() == val_lower
+                        })
+                        .ok_or_else(|| {
+                            format!(
+                                "Langue inconnue '{val}'. Valeurs possibles: fr, en, de, it, es, pt"
+                            )
+                        })?;
+                    opts.language = Some(idx);
+                }
+                "--theme" | "-t" => {
+                    let val = iter
+                        .next()
+                        .ok_or_else(|| "Option requise pour --theme".to_owned())?;
+                    let val_lower = val.to_lowercase();
+                    let idx = if let Ok(i) = val.parse::<usize>()
+                        && i < data.themes.len()
+                    {
+                        i
+                    } else {
+                        data.themes
+                            .iter()
+                            .position(|t| {
+                                t["id"].as_str().unwrap().eq_ignore_ascii_case(&val_lower)
+                            })
+                            .ok_or_else(|| {
+                                format!(
+                                    "Thème inconnu '{val}'. Valeurs possibles: mocha, macchiato, frappe, latte, tokyo-night, dracula, nord, gruvbox (ou 0..7)"
+                                )
+                            })?
+                    };
+                    opts.theme = Some(idx);
+                }
+                "--accent" | "-a" => {
+                    let val = iter
+                        .next()
+                        .ok_or_else(|| "Option requise pour --accent".to_owned())?;
+                    let val_lower = val.to_lowercase();
+                    let idx = if let Ok(i) = val.parse::<usize>()
+                        && i < ACCENTS.len()
+                    {
+                        i
+                    } else {
+                        ACCENTS
+                            .iter()
+                            .position(|a| a.eq_ignore_ascii_case(&val_lower))
+                            .ok_or_else(|| {
+                                format!(
+                                    "Accent inconnu '{val}'. Valeurs possibles: mauve, blue, sapphire, lavender, peach, green, pink (ou 0..6)"
+                                )
+                            })?
+                    };
+                    opts.accent = Some(idx);
+                }
+                "--mode" | "-m" => {
+                    let val = iter
+                        .next()
+                        .ok_or_else(|| "Option requise pour --mode".to_owned())?;
+                    match val.to_lowercase().as_str() {
+                        "standard" | "std" => opts.mode = Some(Mode::Standard),
+                        "scientifique" | "scientific" | "sci" => {
+                            opts.mode = Some(Mode::Scientifique)
+                        }
+                        _ => {
+                            return Err(format!(
+                                "Mode inconnu '{val}'. Valeurs possibles: standard, scientifique"
+                            ));
+                        }
+                    }
+                }
+                unknown => {
+                    return Err(format!(
+                        "Option inconnue '{unknown}'. Utilisez --help pour voir la liste des options."
+                    ));
+                }
+            }
+        }
+        Ok(opts)
+    }
+
+    pub fn print_help() {
+        println!(
+            "Calculette 0.2.0 - Calculette native standard et scientifique\n\n\
+            UTILISATION :\n    \
+                calculatrice [OPTIONS]\n\n\
+            OPTIONS :\n    \
+                -m, --mode <MODE>        Mode de départ : 'standard' ou 'scientifique'\n    \
+                -t, --theme <THEME>      Thème : mocha, macchiato, frappe, latte, tokyo-night, dracula, nord, gruvbox (ou 0..7)\n    \
+                -a, --accent <ACCENT>    Couleur d'accent : mauve, blue, sapphire, lavender, peach, green, pink (ou 0..6)\n    \
+                -l, --lang <LANG>        Langue de l'interface : fr, en, de, it, es, pt\n    \
+                -h, --help               Afficher cette aide\n    \
+                -v, --version            Afficher la version\n        \
+                    --smoke-test         Exécuter le test automatisé d'interface graphique"
+        );
+    }
 }
 
 #[derive(Default)]
@@ -466,5 +605,45 @@ mod tests {
         assert_eq!(deserialized.language, "en");
         assert_eq!(deserialized.theme, "frappe");
         assert_eq!(deserialized.accent, "lavender");
+    }
+    #[test]
+    fn cli_options_parsing() {
+        let data = Data::load();
+        let args = vec![
+            "calculatrice".into(),
+            "--lang".into(),
+            "en".into(),
+            "--theme".into(),
+            "latte".into(),
+            "--accent".into(),
+            "peach".into(),
+            "--mode".into(),
+            "scientifique".into(),
+        ];
+        let opts = CliOptions::parse(&args, &data).unwrap();
+        assert_eq!(opts.language, Some(1));
+        assert_eq!(opts.theme, Some(3));
+        assert_eq!(opts.accent, Some(4));
+        assert_eq!(opts.mode, Some(Mode::Scientifique));
+
+        let short_args = vec![
+            "calculatrice".into(),
+            "-l".into(),
+            "de".into(),
+            "-t".into(),
+            "nord".into(),
+            "-m".into(),
+            "std".into(),
+        ];
+        let short_opts = CliOptions::parse(&short_args, &data).unwrap();
+        assert_eq!(short_opts.language, Some(2));
+        assert_eq!(short_opts.theme, Some(6));
+        assert_eq!(short_opts.mode, Some(Mode::Standard));
+
+        let help_args = vec!["calculatrice".into(), "-h".into()];
+        assert!(CliOptions::parse(&help_args, &data).unwrap().help);
+
+        let err_args = vec!["calculatrice".into(), "--theme".into(), "inexistant".into()];
+        assert!(CliOptions::parse(&err_args, &data).is_err());
     }
 }
