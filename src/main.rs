@@ -213,7 +213,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     if cli.version {
         #[cfg(target_os = "windows")]
         native::attach_console();
-        println!("Calculette 0.2.0");
+        println!("Calculette {}", env!("CARGO_PKG_VERSION"));
         return Ok(());
     }
 
@@ -228,6 +228,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     });
     backend.select()?;
     let ui = CalculatorWindow::new()?;
+    ui.set_version(env!("CARGO_PKG_VERSION").into());
     let mut preferences = Preferences::load(&data);
     if let Some(l) = cli.language {
         preferences.language = l;

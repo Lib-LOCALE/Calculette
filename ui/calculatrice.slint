@@ -41,6 +41,7 @@ component KeyButton inherits Rectangle {
     touch := TouchArea { enabled: root.enabled; clicked => { focus.focus(); root.clicked(); } }
 }
 export component CalculatorWindow inherits Window {
+    in property <string> version;
     title: "Calculette";
     icon: @image-url("../icons/icon.png");
     preferred-width: 380px;
@@ -219,7 +220,7 @@ export component CalculatorWindow inherits Window {
                 }
                 Rectangle { height: 16px; }
                 Image { source: @image-url("../icons/icon.svg"); height: 72px; image-fit: contain; }
-                Text { text: "Calculette 0.2.0"; color: Palette.text; horizontal-alignment: center; }
+                Text { text: "Calculette " + root.version; color: Palette.text; horizontal-alignment: center; }
                 AboutSlint { }
             }
         }

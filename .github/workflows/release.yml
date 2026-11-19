@@ -24,8 +24,12 @@ jobs:
         run: cargo build --release --locked
       - name: Package Linux
         run: |
-          tar -czvf target/release/calculatrice-linux-x64.tar.gz \
-            -C target/release calculatrice -C ../../ui/icons/flags LICENSE-flag-icons.txt
+          mkdir -p target/package-linux/icons
+          cp target/release/calculatrice scripts/install-linux.sh LICENSE \
+            flatpak/io.github.Lib_LOCALE.Calculatrice.desktop ui/fonts/OFL.txt \
+            ui/icons/flags/LICENSE-flag-icons.txt target/package-linux/
+          cp icons/*.png icons/icon.svg target/package-linux/icons/
+          tar -czvf target/release/calculatrice-linux-x64.tar.gz -C target/package-linux .
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
@@ -43,7 +47,7 @@ jobs:
       - name: Package Windows
         shell: pwsh
         run: |
-          Compress-Archive -Path target/release/calculatrice.exe,ui/icons/flags/LICENSE-flag-icons.txt -DestinationPath target/release/calculatrice-windows-x64.zip -Force
+          Compress-Archive -Path target/release/calculatrice.exe,LICENSE,ui/fonts/OFL.txt,ui/icons/flags/LICENSE-flag-icons.txt -DestinationPath target/release/calculatrice-windows-x64.zip -Force
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
@@ -69,6 +73,7 @@ jobs:
           path: calculatrice.flatpak
 
   publish-release:
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: [build-linux, build-windows, build-flatpak]
     runs-on: ubuntu-latest
     steps:
@@ -81,11 +86,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          tag_name="${GITHUB_REF_NAME:-v0.2.0}"
-          assets=()
-          [ -f artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz ] && assets+=(artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz)
-          [ -f artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip ] && assets+=(artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip)
-          [ -f artifacts/calculatrice-flatpak/calculatrice.flatpak ] && assets+=(artifacts/calculatrice-flatpak/calculatrice.flatpak)
+          tag_name="$GITHUB_REF_NAME"
+          assets=(
+            artifacts/calculatrice-linux-x64/calculatrice-linux-x64.tar.gz
+            artifacts/calculatrice-windows-x64/calculatrice-windows-x64.zip
+            artifacts/calculatrice-flatpak/calculatrice.flatpak
+          )
+          for asset in "${assets[@]}"; do
+            test -s "$asset"
+          done
 
           if gh release view "$tag_name" >/dev/null 2>&1; then
             gh release upload "$tag_name" "${assets[@]}" --clobber

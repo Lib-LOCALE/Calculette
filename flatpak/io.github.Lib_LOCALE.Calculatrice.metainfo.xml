@@ -65,6 +65,9 @@
   </screenshots>
   <content_rating type="oars-1.1" />
   <releases>
+    <release version="0.2.1" date="2026-11-19">
+      <description><p>Embeds SVG language flags, adds theme previews and accent swatches, and matches the window and launcher icons on Linux.</p></description>
+    </release>
     <release version="0.2.0" date="2026-11-10">
       <description><p>Native Rust and Slint interface. Cross-platform support for Linux and Windows, visual language flags and theme indicators, and CLI options.</p></description>
     </release>
