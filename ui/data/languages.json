@@ -2,7 +2,6 @@
   {
     "code": "fr",
     "nom": "Français",
-    "drapeau": "🇫🇷",
     "separateurDecimal": ",",
     "separateurMilliers": " ",
     "toucheSeconde": "2nde",
@@ -118,7 +117,6 @@
   {
     "code": "en",
     "nom": "English",
-    "drapeau": "🇬🇧",
     "separateurDecimal": ".",
     "separateurMilliers": ",",
     "toucheSeconde": "2nd",
@@ -234,7 +232,6 @@
   {
     "code": "de",
     "nom": "Deutsch",
-    "drapeau": "🇩🇪",
     "separateurDecimal": ",",
     "separateurMilliers": ".",
     "toucheSeconde": "2nd",
@@ -350,7 +347,6 @@
   {
     "code": "it",
     "nom": "Italiano",
-    "drapeau": "🇮🇹",
     "separateurDecimal": ",",
     "separateurMilliers": ".",
     "toucheSeconde": "2ª",
@@ -466,7 +462,6 @@
   {
     "code": "es",
     "nom": "Español",
-    "drapeau": "🇪🇸",
     "separateurDecimal": ",",
     "separateurMilliers": ".",
     "toucheSeconde": "2.ª",
@@ -582,7 +577,6 @@
   {
     "code": "pt",
     "nom": "Português",
-    "drapeau": "🇵🇹",
     "separateurDecimal": ",",
     "separateurMilliers": ".",
     "toucheSeconde": "2.ª",

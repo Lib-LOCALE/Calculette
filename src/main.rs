@@ -231,15 +231,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ui.set_language_index(preferences.language as i32);
     ui.set_theme_index(preferences.theme as i32);
     ui.set_accent_index(preferences.accent as i32);
-    ui.set_languages(strings(data.languages.iter().map(|l| {
-        let drapeau = l["drapeau"].as_str().unwrap_or("");
-        let nom = l["nom"].as_str().unwrap_or("");
-        if drapeau.is_empty() {
-            nom.to_owned()
-        } else {
-            format!("{drapeau}  {nom}")
-        }
-    })));
+    ui.set_languages(ModelRc::new(VecModel::from(
+        data.languages
+            .iter()
+            .map(|language| Language {
+                code: language["code"].as_str().unwrap_or_default().into(),
+                name: language["nom"].as_str().unwrap_or_default().into(),
+            })
+            .collect::<Vec<_>>(),
+    )));
     ui.set_themes(strings(
         data.themes
             .iter()

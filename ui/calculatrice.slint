@@ -1,20 +1,12 @@
 import "fonts/InterVariable.ttf";
 import { ScrollView, ComboBox, AboutSlint, Palette as WidgetPalette } from "std-widgets.slint";
+import { Language, LanguagePicker } from "language-picker.slint";
+import { Palette } from "palette.slint";
+
+export { Language, Palette }
 
 export struct CalcKey { id: string, label: string, aria: string, kind: int, enabled: bool, active: bool }
 export struct Record { expression: string, result: string }
-export global Palette {
-    in-out property <color> bg: #1e1e2e;
-    in-out property <color> panel: #181825;
-    in-out property <color> number: #45475a;
-    in-out property <color> function: #313244;
-    in-out property <color> hover: #585b70;
-    in-out property <color> text: #cdd6f4;
-    in-out property <color> muted: #a6adc8;
-    in-out property <color> accent: #cba6f7;
-    in-out property <color> on-accent: #11111b;
-    in-out property <color> red: #f38ba8;
-}
 component KeyButton inherits Rectangle {
     in property <string> text;
     in property <string> label: text;
@@ -73,7 +65,7 @@ export component CalculatorWindow inherits Window {
     in property <[[CalcKey]]> keys;
     in property <[Record]> history;
     in property <[string]> memory;
-    in property <[string]> languages;
+    in property <[Language]> languages;
     in property <[string]> themes;
     in property <[string]> accents;
     in-out property <int> language-index;
@@ -209,7 +201,12 @@ export component CalculatorWindow inherits Window {
                 Text { text: root.tr("couleurAccent"); color: Palette.muted; }
                 ComboBox { model: root.accents; current-index <=> root.accent-index; selected => { root.configure(); } }
                 Text { text: root.tr("langue"); color: Palette.muted; }
-                ComboBox { model: root.languages; current-index <=> root.language-index; selected => { root.configure(); } }
+                LanguagePicker {
+                    label: root.tr("langue");
+                    model: root.languages;
+                    current-index <=> root.language-index;
+                    selected => { root.configure(); }
+                }
                 Rectangle { height: 16px; }
                 Image { source: @image-url("../icons/icon.svg"); height: 72px; image-fit: contain; }
                 Text { text: "Calculette 0.2.0"; color: Palette.text; horizontal-alignment: center; }

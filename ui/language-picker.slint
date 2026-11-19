@@ -1,0 +1,163 @@
+import { Palette } from "palette.slint";
+
+export struct Language { code: string, name: string }
+
+component LanguageLabel inherits HorizontalLayout {
+    in property <Language> language;
+    spacing: 8px;
+
+    Image {
+        width: 20px;
+        height: 15px;
+        y: (parent.height - self.height) / 2;
+        image-fit: contain;
+        accessible-role: none;
+        // Rectangular SVGs from lipis/flag-icons v7.3.2 (MIT).
+        source: root.language.code == "fr" ? @image-url("icons/flags/fr.svg")
+              : root.language.code == "en" ? @image-url("icons/flags/gb.svg")
+              : root.language.code == "de" ? @image-url("icons/flags/de.svg")
+              : root.language.code == "it" ? @image-url("icons/flags/it.svg")
+              : root.language.code == "es" ? @image-url("icons/flags/es.svg")
+              : root.language.code == "pt" ? @image-url("icons/flags/pt.svg")
+              : @image-url("");
+    }
+    Text {
+        text: root.language.name;
+        color: Palette.text;
+        vertical-alignment: center;
+        overflow: elide;
+        horizontal-stretch: 1;
+        accessible-role: none;
+    }
+}
+
+export component LanguagePicker inherits Rectangle {
+    in property <[Language]> model;
+    in property <string> label;
+    in-out property <int> current-index;
+    property <bool> popup-has-focus;
+    callback selected();
+
+    function select(index: int) {
+        if index >= 0 && index < root.model.length && index != root.current-index {
+            root.current-index = index;
+            root.selected();
+        }
+    }
+
+    function handle-arrows(event: KeyEvent) -> EventResult {
+        if event.text == Key.UpArrow {
+            root.select(root.current-index - 1);
+            return accept;
+        }
+        if event.text == Key.DownArrow {
+            root.select(root.current-index + 1);
+            return accept;
+        }
+        return reject;
+    }
+
+    height: 32px;
+    border-radius: 4px;
+    background: trigger.has-hover ? Palette.hover : Palette.function;
+    border-width: 1px;
+    border-color: focus.has-focus || root.popup-has-focus ? Palette.accent : transparent;
+    forward-focus: focus;
+    accessible-role: combobox;
+    accessible-label: root.label;
+    accessible-value: root.model[root.current-index].name;
+    accessible-expandable: true;
+    accessible-expanded: root.popup-has-focus;
+    accessible-action-default => { popup.show(); }
+    accessible-action-expand => { popup.show(); }
+
+    HorizontalLayout {
+        padding-left: 10px;
+        padding-right: 10px;
+        spacing: 8px;
+        LanguageLabel { language: root.model[root.current-index]; }
+        Image {
+            source: @image-url("icons/chevron-down.svg");
+            width: 14px;
+            height: 14px;
+            y: (parent.height - self.height) / 2;
+            colorize: Palette.muted;
+            accessible-role: none;
+        }
+    }
+
+    focus := FocusScope {
+        changed has-focus => {
+            if self.has-focus {
+                root.popup-has-focus = false;
+            }
+        }
+        key-pressed(event) => {
+            if event.text == Key.Return || event.text == Key.Space {
+                popup.show();
+                return accept;
+            }
+            return root.handle-arrows(event);
+        }
+        trigger := TouchArea {
+            clicked => { focus.focus(); popup.show(); }
+            scroll-event(event) => {
+                if focus.has-focus && abs(event.delta-y) > 2px {
+                    root.select(root.current-index + (event.delta-y < 0px ? 1 : -1));
+                    return accept;
+                }
+                return reject;
+            }
+        }
+    }
+
+    popup := PopupWindow {
+        x: 0px;
+        y: root.height + 4px;
+        width: root.width;
+        height: root.model.length * 30px + 8px;
+        close-policy: close-on-click-outside;
+        forward-focus: options-focus;
+
+        options-focus := FocusScope {
+            focus-changed-event => {
+                root.popup-has-focus = self.has-focus;
+            }
+            key-pressed(event) => {
+                if event.text == Key.Return || event.text == Key.Space || event.text == Key.Escape {
+                    popup.close();
+                    return accept;
+                }
+                return root.handle-arrows(event);
+            }
+            Rectangle {
+                accessible-role: list;
+                accessible-item-count: root.model.length;
+                background: Palette.panel;
+                border-width: 1px;
+                border-color: Palette.hover;
+                border-radius: 4px;
+                VerticalLayout {
+                    padding: 4px;
+                    for language[index] in root.model: Rectangle {
+                        height: 30px;
+                        border-radius: 3px;
+                        background: option.has-hover ? Palette.hover : index == root.current-index ? Palette.function : transparent;
+                        accessible-role: list-item;
+                        accessible-label: language.name;
+                        accessible-item-selectable: true;
+                        accessible-item-selected: index == root.current-index;
+                        accessible-item-index: index;
+                        accessible-action-default => { root.select(index); popup.close(); }
+                        HorizontalLayout {
+                            padding-left: 6px;
+                            padding-right: 6px;
+                            LanguageLabel { language: language; }
+                        }
+                        option := TouchArea { clicked => { root.select(index); popup.close(); } }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -24,8 +24,8 @@ jobs:
         run: cargo build --release --locked
       - name: Package Linux
         run: |
-          cd target/release
-          tar -czvf calculatrice-linux-x64.tar.gz calculatrice
+          tar -czvf target/release/calculatrice-linux-x64.tar.gz \
+            -C target/release calculatrice -C ../../ui/icons/flags LICENSE-flag-icons.txt
       - name: Upload Linux artifact
         uses: actions/upload-artifact@v4
         with:
@@ -43,7 +43,7 @@ jobs:
       - name: Package Windows
         shell: pwsh
         run: |
-          Compress-Archive -Path target/release/calculatrice.exe -DestinationPath target/release/calculatrice-windows-x64.zip -Force
+          Compress-Archive -Path target/release/calculatrice.exe,ui/icons/flags/LICENSE-flag-icons.txt -DestinationPath target/release/calculatrice-windows-x64.zip -Force
       - name: Upload Windows artifact
         uses: actions/upload-artifact@v4
         with:
