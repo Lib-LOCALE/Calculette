@@ -14,13 +14,12 @@ done
 install -Dm644 icons/128x128@2x.png "$data_home/icons/hicolor/256x256/apps/$app_id.png"
 install -Dm644 icons/icon.png "$data_home/icons/hicolor/512x512/apps/$app_id.png"
 
-# A quoted desktop-entry Exec argument undergoes both string and argument unescaping.
-exec_path=$(printf '%s' "$binary" | sed -e 's/[%]/%%/g' -e 's/[\\"`$]/\\&/g' -e 's/\\/\\\\/g')
 launcher="$data_home/applications/$app_id.desktop"
 mkdir -p -- "$(dirname -- "$launcher")"
 while IFS= read -r line; do
     if [[ $line == Exec=* ]]; then
-        printf 'Exec="%s"\n' "$exec_path"
+        # Expand the home directory at launch time, after desktop-entry parsing.
+        printf '%s\n' 'Exec=sh -c "exec \\"\\$HOME/.local/bin/calculatrice\\""'
     else
         printf '%s\n' "$line"
     fi
