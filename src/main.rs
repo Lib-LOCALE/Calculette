@@ -93,22 +93,20 @@ impl App {
             })
             .collect::<Vec<_>>();
         ui.set_keys(ModelRc::new(VecModel::from(rows)));
-        ui.set_accents(strings(native::ACCENTS.iter().map(|id| {
-            let dot = match *id {
-                "mauve" => "🟣",
-                "blue" => "🔵",
-                "sapphire" => "🔷",
-                "lavender" => "🪻",
-                "peach" => "🍑",
-                "green" => "🟢",
-                "pink" => "🌸",
-                _ => "●",
-            };
-            format!("{dot} {}", tr["accents"][id].as_str().unwrap())
-        })));
         let palette = ui.global::<Palette>();
         let colors = &self.data.themes[self.preferences.theme]["colors"];
         let color = |key: &str| native::color(colors[key].as_str().unwrap());
+        let accent_color = |id: &str| color(&format!("ctp-{id}"));
+        ui.set_accents(ModelRc::new(VecModel::from(
+            native::ACCENTS
+                .iter()
+                .map(|&id| PickerOption {
+                    name: tr["accents"][id].as_str().unwrap().into(),
+                    dot: accent_color(id),
+                    ..Default::default()
+                })
+                .collect::<Vec<_>>(),
+        )));
         palette.set_bg(color("ctp-base"));
         palette.set_panel(color("ctp-mantle"));
         palette.set_number(if self.preferences.theme == 3 {
@@ -124,10 +122,7 @@ impl App {
         palette.set_hover(color("ctp-surface2"));
         palette.set_text(color("ctp-text"));
         palette.set_muted(color("ctp-subtext0"));
-        palette.set_accent(color(&format!(
-            "ctp-{}",
-            native::ACCENTS[self.preferences.accent]
-        )));
+        palette.set_accent(accent_color(native::ACCENTS[self.preferences.accent]));
         palette.set_on_accent(color("on-accent"));
         palette.set_red(color("ctp-red"));
     }

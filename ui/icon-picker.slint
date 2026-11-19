@@ -6,7 +6,7 @@ export struct ThemeSwatch {
     accents: [color],
 }
 
-export struct PickerOption { name: string, icon: image, swatch: ThemeSwatch }
+export struct PickerOption { name: string, icon: image, swatch: ThemeSwatch, dot: color }
 
 component OptionLabel inherits HorizontalLayout {
     in property <PickerOption> item;
@@ -23,6 +23,17 @@ component OptionLabel inherits HorizontalLayout {
             source: root.item.icon;
             image-fit: contain;
             accessible-role: none;
+        }
+
+        if root.item.dot != transparent : Rectangle {
+            width: 12px;
+            height: 12px;
+            x: (parent.width - self.width) / 2;
+            y: (parent.height - self.height) / 2;
+            border-radius: 6px;
+            border-width: 1px;
+            border-color: Palette.muted.with-alpha(0.45);
+            background: root.item.dot;
         }
 
         if root.item.swatch.background != transparent : Rectangle {

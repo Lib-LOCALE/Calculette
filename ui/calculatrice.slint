@@ -1,5 +1,5 @@
 import "fonts/InterVariable.ttf";
-import { ScrollView, ComboBox, AboutSlint, Palette as WidgetPalette } from "std-widgets.slint";
+import { ScrollView, AboutSlint, Palette as WidgetPalette } from "std-widgets.slint";
 import { IconPicker, PickerOption, ThemeSwatch } from "icon-picker.slint";
 import { Palette } from "palette.slint";
 
@@ -67,7 +67,7 @@ export component CalculatorWindow inherits Window {
     in property <[string]> memory;
     in property <[PickerOption]> languages;
     in property <[PickerOption]> themes;
-    in property <[string]> accents;
+    in property <[PickerOption]> accents;
     in-out property <int> language-index;
     in-out property <int> theme-index;
     in-out property <int> accent-index;
@@ -204,7 +204,12 @@ export component CalculatorWindow inherits Window {
                     selected => { root.configure(); }
                 }
                 Text { text: root.tr("couleurAccent"); color: Palette.muted; }
-                ComboBox { model: root.accents; current-index <=> root.accent-index; selected => { root.configure(); } }
+                IconPicker {
+                    label: root.tr("couleurAccent");
+                    model: root.accents;
+                    current-index <=> root.accent-index;
+                    selected => { root.configure(); }
+                }
                 Text { text: root.tr("langue"); color: Palette.muted; }
                 IconPicker {
                     label: root.tr("langue");
