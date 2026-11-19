@@ -1,28 +1,51 @@
 import { Palette } from "palette.slint";
 
-export struct Language { code: string, name: string }
+export struct ThemeSwatch {
+    background: color,
+    border: color,
+    accents: [color],
+}
 
-component LanguageLabel inherits HorizontalLayout {
-    in property <Language> language;
+export struct PickerOption { name: string, icon: image, swatch: ThemeSwatch }
+
+component OptionLabel inherits HorizontalLayout {
+    in property <PickerOption> item;
     spacing: 8px;
 
-    Image {
+    Rectangle {
         width: 20px;
         height: 15px;
         y: (parent.height - self.height) / 2;
-        image-fit: contain;
-        accessible-role: none;
-        // Rectangular SVGs from lipis/flag-icons v7.3.2 (MIT).
-        source: root.language.code == "fr" ? @image-url("icons/flags/fr.svg")
-              : root.language.code == "en" ? @image-url("icons/flags/gb.svg")
-              : root.language.code == "de" ? @image-url("icons/flags/de.svg")
-              : root.language.code == "it" ? @image-url("icons/flags/it.svg")
-              : root.language.code == "es" ? @image-url("icons/flags/es.svg")
-              : root.language.code == "pt" ? @image-url("icons/flags/pt.svg")
-              : @image-url("");
+
+        if root.item.icon.width > 0 : Image {
+            width: parent.width;
+            height: parent.height;
+            source: root.item.icon;
+            image-fit: contain;
+            accessible-role: none;
+        }
+
+        if root.item.swatch.background != transparent : Rectangle {
+            background: root.item.swatch.background;
+            border-color: root.item.swatch.border;
+            border-width: 1px;
+            border-radius: 3px;
+
+            HorizontalLayout {
+                padding-left: 3px;
+                padding-right: 3px;
+                padding-top: 4px;
+                padding-bottom: 4px;
+                spacing: 1px;
+                for accent in root.item.swatch.accents : Rectangle {
+                    background: accent;
+                    border-radius: 1px;
+                }
+            }
+        }
     }
     Text {
-        text: root.language.name;
+        text: root.item.name;
         color: Palette.text;
         vertical-alignment: center;
         overflow: elide;
@@ -31,8 +54,8 @@ component LanguageLabel inherits HorizontalLayout {
     }
 }
 
-export component LanguagePicker inherits Rectangle {
-    in property <[Language]> model;
+export component IconPicker inherits Rectangle {
+    in property <[PickerOption]> model;
     in property <string> label;
     in-out property <int> current-index;
     property <bool> popup-has-focus;
@@ -61,7 +84,7 @@ export component LanguagePicker inherits Rectangle {
     border-radius: 4px;
     background: trigger.has-hover ? Palette.hover : Palette.function;
     border-width: 1px;
-    border-color: focus.has-focus || root.popup-has-focus ? Palette.accent : transparent;
+    border-color: focus.has-focus || root.popup-has-focus ? Palette.accent : Palette.muted.with-alpha(0.24);
     forward-focus: focus;
     accessible-role: combobox;
     accessible-label: root.label;
@@ -75,7 +98,7 @@ export component LanguagePicker inherits Rectangle {
         padding-left: 10px;
         padding-right: 10px;
         spacing: 8px;
-        LanguageLabel { language: root.model[root.current-index]; }
+        OptionLabel { item: root.model[root.current-index]; }
         Image {
             source: @image-url("icons/chevron-down.svg");
             width: 14px;
@@ -139,12 +162,12 @@ export component LanguagePicker inherits Rectangle {
                 border-radius: 4px;
                 VerticalLayout {
                     padding: 4px;
-                    for language[index] in root.model: Rectangle {
+                    for item[index] in root.model: Rectangle {
                         height: 30px;
                         border-radius: 3px;
                         background: option.has-hover ? Palette.hover : index == root.current-index ? Palette.function : transparent;
                         accessible-role: list-item;
-                        accessible-label: language.name;
+                        accessible-label: item.name;
                         accessible-item-selectable: true;
                         accessible-item-selected: index == root.current-index;
                         accessible-item-index: index;
@@ -152,7 +175,7 @@ export component LanguagePicker inherits Rectangle {
                         HorizontalLayout {
                             padding-left: 6px;
                             padding-right: 6px;
-                            LanguageLabel { language: language; }
+                            OptionLabel { item: item; }
                         }
                         option := TouchArea { clicked => { root.select(index); popup.close(); } }
                     }

@@ -1,9 +1,9 @@
 import "fonts/InterVariable.ttf";
 import { ScrollView, ComboBox, AboutSlint, Palette as WidgetPalette } from "std-widgets.slint";
-import { Language, LanguagePicker } from "language-picker.slint";
+import { IconPicker, PickerOption, ThemeSwatch } from "icon-picker.slint";
 import { Palette } from "palette.slint";
 
-export { Language, Palette }
+export { Palette, PickerOption, ThemeSwatch }
 
 export struct CalcKey { id: string, label: string, aria: string, kind: int, enabled: bool, active: bool }
 export struct Record { expression: string, result: string }
@@ -65,8 +65,8 @@ export component CalculatorWindow inherits Window {
     in property <[[CalcKey]]> keys;
     in property <[Record]> history;
     in property <[string]> memory;
-    in property <[Language]> languages;
-    in property <[string]> themes;
+    in property <[PickerOption]> languages;
+    in property <[PickerOption]> themes;
     in property <[string]> accents;
     in-out property <int> language-index;
     in-out property <int> theme-index;
@@ -197,11 +197,16 @@ export component CalculatorWindow inherits Window {
                 KeyButton { text: root.tr("standard") + "   Alt+1"; active: !root.scientific; clicked => { root.press("standard"); root.settings = false; } }
                 KeyButton { text: root.tr("scientifique") + "   Alt+2"; active: root.scientific; clicked => { root.press("scientifique"); root.settings = false; } }
                 Text { text: root.tr("themeCatppuccin"); color: Palette.muted; }
-                ComboBox { model: root.themes; current-index <=> root.theme-index; selected => { root.configure(); } }
+                IconPicker {
+                    label: root.tr("themeCatppuccin");
+                    model: root.themes;
+                    current-index <=> root.theme-index;
+                    selected => { root.configure(); }
+                }
                 Text { text: root.tr("couleurAccent"); color: Palette.muted; }
                 ComboBox { model: root.accents; current-index <=> root.accent-index; selected => { root.configure(); } }
                 Text { text: root.tr("langue"); color: Palette.muted; }
-                LanguagePicker {
+                IconPicker {
                     label: root.tr("langue");
                     model: root.languages;
                     current-index <=> root.language-index;

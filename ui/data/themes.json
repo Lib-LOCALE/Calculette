@@ -1,6 +1,7 @@
 [
   {
     "id": "mocha",
+    "preview": ["ctp-mauve", "ctp-lavender", "ctp-pink"],
     "colors": {
       "ctp-crust": "#11111b",
       "ctp-mantle": "#181825",
@@ -24,6 +25,7 @@
   },
   {
     "id": "macchiato",
+    "preview": ["ctp-peach", "ctp-pink", "ctp-mauve"],
     "colors": {
       "ctp-crust": "#181926",
       "ctp-mantle": "#1e2030",
@@ -47,6 +49,7 @@
   },
   {
     "id": "frappe",
+    "preview": ["ctp-blue", "ctp-sapphire", "ctp-green"],
     "colors": {
       "ctp-crust": "#232634",
       "ctp-mantle": "#292c3c",
@@ -70,6 +73,7 @@
   },
   {
     "id": "latte",
+    "preview": ["ctp-mauve", "ctp-blue", "ctp-peach"],
     "colors": {
       "ctp-crust": "#dce0e8",
       "ctp-mantle": "#e6e9ef",
@@ -96,6 +100,7 @@
   },
   {
     "id": "tokyo-night",
+    "preview": ["ctp-blue", "ctp-sapphire", "ctp-red"],
     "colors": {
       "ctp-crust": "#13141c",
       "ctp-mantle": "#16161e",
@@ -119,6 +124,7 @@
   },
   {
     "id": "dracula",
+    "preview": ["ctp-mauve", "ctp-pink", "ctp-green"],
     "colors": {
       "ctp-crust": "#191a21",
       "ctp-mantle": "#21222c",
@@ -142,6 +148,7 @@
   },
   {
     "id": "nord",
+    "preview": ["ctp-blue", "ctp-sapphire", "ctp-lavender"],
     "colors": {
       "ctp-crust": "#1f232b",
       "ctp-mantle": "#242933",
@@ -165,6 +172,7 @@
   },
   {
     "id": "gruvbox",
+    "preview": ["ctp-lavender", "ctp-peach", "ctp-green"],
     "colors": {
       "ctp-crust": "#141617",
       "ctp-mantle": "#1d2021",

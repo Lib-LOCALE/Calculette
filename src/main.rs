@@ -7,7 +7,7 @@ mod smoke;
 use moteur::{Angle, Engine, Key, Mode};
 use native::{Data, Preferences};
 use slint::winit_030::{EventResult, WinitWindowAccessor, winit};
-use slint::{ComponentHandle, ModelRc, VecModel};
+use slint::{ComponentHandle, Image, ModelRc, VecModel};
 use std::{cell::RefCell, rc::Rc};
 use winit::{
     event::{ElementState, WindowEvent},
@@ -181,6 +181,20 @@ fn strings(values: impl IntoIterator<Item = String>) -> ModelRc<slint::SharedStr
     ))
 }
 
+fn language_flag(code: &str) -> Image {
+    // Rectangular SVGs from lipis/flag-icons v7.3.2 (MIT).
+    let svg: &[u8] = match code {
+        "fr" => include_bytes!("../ui/icons/flags/fr.svg"),
+        "en" => include_bytes!("../ui/icons/flags/gb.svg"),
+        "de" => include_bytes!("../ui/icons/flags/de.svg"),
+        "it" => include_bytes!("../ui/icons/flags/it.svg"),
+        "es" => include_bytes!("../ui/icons/flags/es.svg"),
+        "pt" => include_bytes!("../ui/icons/flags/pt.svg"),
+        _ => return Image::default(),
+    };
+    Image::load_from_svg_data(svg).expect("drapeau SVG embarqué valide")
+}
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = std::env::args().collect();
     let data = Data::load();
@@ -234,17 +248,38 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ui.set_languages(ModelRc::new(VecModel::from(
         data.languages
             .iter()
-            .map(|language| Language {
-                code: language["code"].as_str().unwrap_or_default().into(),
+            .map(|language| PickerOption {
                 name: language["nom"].as_str().unwrap_or_default().into(),
+                icon: language_flag(language["code"].as_str().unwrap_or_default()),
+                ..Default::default()
             })
             .collect::<Vec<_>>(),
     )));
-    ui.set_themes(strings(
+    ui.set_themes(ModelRc::new(VecModel::from(
         data.themes
             .iter()
-            .map(|t| native::theme_name(t["id"].as_str().unwrap()).to_owned()),
-    ));
+            .map(|theme| {
+                let colors = &theme["colors"];
+                let color = |key: &str| native::color(colors[key].as_str().unwrap());
+                PickerOption {
+                    name: native::theme_name(theme["id"].as_str().unwrap()).into(),
+                    swatch: ThemeSwatch {
+                        background: color("ctp-base"),
+                        border: color("ctp-overlay0"),
+                        accents: ModelRc::new(VecModel::from(
+                            theme["preview"]
+                                .as_array()
+                                .unwrap()
+                                .iter()
+                                .map(|key| color(key.as_str().unwrap()))
+                                .collect::<Vec<_>>(),
+                        )),
+                    },
+                    ..Default::default()
+                }
+            })
+            .collect::<Vec<_>>(),
+    )));
     let app = Rc::new(RefCell::new(App {
         engine,
         data,

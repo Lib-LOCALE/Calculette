@@ -138,14 +138,14 @@ pub fn color(hex: &str) -> slint::Color {
 }
 pub fn theme_name(id: &str) -> &str {
     match id {
-        "mocha" => "🌙 Mocha",
-        "macchiato" => "🌙 Macchiato",
-        "frappe" => "🌙 Frappé",
-        "latte" => "☀️ Latte",
-        "tokyo-night" => "🌃 Tokyo Night",
-        "dracula" => "🧛 Dracula",
-        "nord" => "❄️ Nord",
-        "gruvbox" => "🍂 Gruvbox",
+        "mocha" => "Mocha",
+        "macchiato" => "Macchiato",
+        "frappe" => "Frappé",
+        "latte" => "Latte",
+        "tokyo-night" => "Tokyo Night",
+        "dracula" => "Dracula",
+        "nord" => "Nord",
+        "gruvbox" => "Gruvbox",
         _ => id,
     }
 }
