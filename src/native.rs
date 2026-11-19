@@ -371,7 +371,7 @@ impl CliOptions {
 
     pub fn print_help() {
         println!(
-            "Calculette 0.2.0 - Calculette native standard et scientifique\n\n\
+            "Calculette {} - Calculette native standard et scientifique\n\n\
             UTILISATION :\n    \
                 calculatrice [OPTIONS]\n\n\
             OPTIONS :\n    \
@@ -381,7 +381,8 @@ impl CliOptions {
                 -l, --lang <LANG>        Langue de l'interface : fr, en, de, it, es, pt\n    \
                 -h, --help               Afficher cette aide\n    \
                 -v, --version            Afficher la version\n        \
-                    --smoke-test         Exécuter le test automatisé d'interface graphique"
+                    --smoke-test         Exécuter le test automatisé d'interface graphique",
+            env!("CARGO_PKG_VERSION")
         );
     }
 }
