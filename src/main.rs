@@ -222,9 +222,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         return Ok(());
     }
 
-    slint::BackendSelector::new()
-        .backend_name("winit".into())
-        .select()?;
+    let backend = slint::BackendSelector::new().backend_name("winit".into());
+    #[cfg(target_os = "linux")]
+    let backend = backend.with_winit_window_attributes_hook(|attributes| {
+        use winit::platform::wayland::WindowAttributesExtWayland;
+
+        // Winit uses the same name for the Wayland app ID and the X11 window class.
+        const APP_ID: &str = "io.github.Lib_LOCALE.Calculatrice";
+        attributes.with_name(APP_ID, APP_ID)
+    });
+    backend.select()?;
     let ui = CalculatorWindow::new()?;
     let mut preferences = Preferences::load(&data);
     if let Some(l) = cli.language {

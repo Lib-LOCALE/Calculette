@@ -26,4 +26,4 @@ Type=Application
 Categories=Utility;Calculator;
 Keywords=calculette;calculatrice;calculator;rechner;calcolatrice;calculadora;scientific;scientifique;math;catppuccin;tokyo-night;dracula;nord;gruvbox;
 StartupNotify=true
-StartupWMClass=calculatrice
+StartupWMClass=io.github.Lib_LOCALE.Calculatrice
